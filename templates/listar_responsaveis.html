@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="dashboard-content">
+   
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div>
+            <h1>Listagem de Responsáveis</h1>
+            <p class="subtitulo">Gerencie os responsáveis de manutenção e visualize suas ordens de serviço vinculadas.</p>
+        </div>
+        <div class="topbar-acoes">
+            <input type="text" placeholder="🔍 Buscar responsável..." class="topbar-busca">
+        </div>
+    </div>
+
+    <!-- TABELA -->
+    <div class="tabela-container">
+        <table class="tabela-viaturas">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome Completo</th>
+                    <th>Email</th>
+                    <th>Função / Cargo</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for responsavel in var_responsavel %}
+                <tr>
+                    <td><strong>{{ responsavel.id_responsavel }}</strong></td>
+                    <td>{{ responsavel.nome }}</td>
+                    <td>{{ responsavel.email }}</td>
+                    <td><span class="tag-cargo">{{ responsavel.cargo_funcao }}</span></td>
+                    <td class="acoes">✏️ 🗑️</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</main>
+
+{% endblock content %}

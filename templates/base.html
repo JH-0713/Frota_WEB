@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faça seu login</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+<header>
+    <div class="navbar">
+        <a href="{{url_for('index')}}">PMSC GESTÃO E FROTA</a>
+        <a href="{{url_for('login')}}">Login</a>
+    </div>
+</header>
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <nav class="navegacao_lado">
+            <a href="{{ url_for('index') }}">Dashboard</a>
+
+            <a href="{{ url_for('listar_policial')}}">Listar Policiais</a>
+
+            <a href="{{ url_for('listar_responsavel')}}">Listar Responsáveis</a>
+
+            <a href="{{ url_for('listar_viatura') }}">Listar Viaturas</a>
+
+            <a href="{{url_for('listar_itens')}}">Listar Itens de Manutenção</a>
+
+            <a href="#">Histórico de manutenção</a>
+
+            <a href="#">Histórico do veículo</a>
+
+
+        </nav>
+    </aside>
+
+    {% block content %}
+
+
+    {% endblock %}
+
+    <footer>
+
+    </footer>
+
+</div>
+</body>
+</html>

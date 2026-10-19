@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="dashboard-content">
+   
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div>
+            <h1>Listagem de Viaturas</h1>
+            <p class="subtitulo">Gerencie as viaturas da frota e visualize seus status operacionais.</p>
+        </div>
+        <div class="topbar-acoes">
+            <input type="text" placeholder="🔍 Buscar por prefixo ou placa..." class="topbar-busca">
+            <a href="/cadastrar_viatura" class="btn-incluir">🚗 Cadastrar Viatura</a>
+        </div>
+    </div>
+
+    <!-- TABELA -->
+    <div class="tabela-container">
+        <table class="tabela-viaturas">
+            <thead>
+                <tr>
+                    <th>Prefixo</th>
+                    <th>Placa</th>
+                    <th>Modelo</th>
+                    <th>Ano</th>
+                    <th>Odômetro</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for viatura in var_viatura %}
+                <tr>
+                    <td><strong>{{ viatura.prefixo }}</strong></td>
+                    <td>{{ viatura.placa }}</td>
+                    <td>{{ viatura.modelo }}</td>
+                    <td>{{ viatura.ano }}</td>
+                    <td>{{ viatura.km_atual }}</td>
+                    <td><span class="tag-cargo">{{ viatura.status_atual }}</span></td>
+                    <td class="acoes">✏️ 🗑️</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+       
+        <!-- RODAPÉ -->
+        <div class="tabela-rodape">
+            <span>Mostrando 1 a 4 de 124 viaturas</span>
+            <div class="paginacao">
+                <button class="ativo">1</button>
+                <button>2</button>
+                <button>3</button>
+                <span>...</span>
+                <button>›</button>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+{% endblock content %}

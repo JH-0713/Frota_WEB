@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="dashboard-content">
+   
+    <div class="form-centralizado">
+        <div class="form-card-responsavel">
+           
+            <!-- CABEÇALHO -->
+            <div class="form-header">
+                <div>
+                    <h2 class="form-titulo-esq">Cadastro de Itens de Manutenção</h2>
+                    <p class="form-subtitulo-esq">Adicione novos componentes ao inventário de manutenção da frota.</p>
+                </div>
+            </div>
+            <form action="{{url_for('cadastrar_item')}}" method="post">
+           
+            <!-- CORPO -->
+            <div class="form-corpo">
+               
+               
+                <!-- Subtítulo da seção -->
+                <div class="secao-titulo">
+                    Detalhes do Item
+                </div>
+               
+                <div class="form-linha">
+                    <div class="form-campo full">
+                        <label>Nome do Item</label>
+                        <input type="text" name="form_nome" placeholder="Ex: Pastilha de freio dianteira">
+                        <small class="input-ajuda">Nome completo do Item.</small>
+                    </div>
+                </div>
+
+                <!-- DESCRIÇÃO -->
+                <div class="form-linha">
+                    <div class="form-campo full">
+                        <label>Descrição</label>
+                        <input type="text" name="form_descricao" placeholder="Ex: Pastilha de freio dianteira">
+                        <small class="input-ajuda">Descrição do Item.</small>
+                    </div>
+                </div>
+
+                <!-- CATEGORIA + VALOR -->
+                <div class="form-linha">
+                    <div class="form-campo">
+                        <label>Categoria da Falha</label>
+                        <select name="form_categoria">
+                            <option value="none">Selecione uma categoria</option>
+                            <option value="motor">Motor</option>
+                            <option value="cambio">Cambio</option>
+                            <option value="embreagem">Embreagem</option>
+                            <option value="freio">Freio</option>
+                            <option value="suspensao">Suspensão</option>
+                            <option value="direcao">Direção</option>
+                            <option value="bateria">Bateria</option>
+                            <option value="injecao_eletronica">Injeção Eletronica</option>
+                            <option value="iluminacao">Iluminação</option>
+                            <option value="ar_condicionado">Ar Condicionado</option>
+                            <option value="arrefecimento">Arrefecimento</option>
+                            <option value="alimentacao">Alimentação</option>
+                        </select>
+                    </div>
+                    <div class="form-campo">
+                        <label>Valor Unitário (R$)</label>
+                        <input type="text" name="form_valor" placeholder="R$ 0,00">
+                    </div>
+                </div>
+
+                <!-- QUANTIDADE -->
+               
+
+                <!-- BOTÕES -->
+                <div class="form-acoes-responsavel">
+                    <button class="btn-cancelar" type="reset">Cancelar</button>
+                    <button class="btn-salvar" type="submit">Salvar Item</button>
+                </div>
+
+
+            </div>
+            </form>
+
+
+        </div>
+    </div>
+
+</main>
+
+{% endblock content %}

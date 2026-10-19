@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    <main class="dashboard-content">
+        <div class="cards-container">
+
+            <!-- CARD 1 -->
+            <div class="card-indicador">
+                <div class="card-topo">
+                    <span>Taxa de Disponibilidade</span>
+                   
+                </div>
+                <div class="card-valor">{{taxa_disponibilidade }}</div>
+                <div class="card-info positivo">{{
+                    status_custo}}</div>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="card-indicador">
+                <div class="card-topo">
+                    <span>Custo Mensal de Manutenção</span>
+                   
+                </div>
+                <div class="card-valor">R$ 42.500</div>
+                <div class="card-info">— Dentro da meta</div>
+            </div>
+
+            <!-- CARD 3 (VERMELHO) -->
+            <div class="card-indicador alerta">
+                <div class="card-topo">
+                    <span>Alertas Ativos</span>
+                </div>
+                <div class="card-valor vermelho">12</div>
+                <div class="card-info vermelho">! Ação imediata requerida</div>
+            </div>
+
+        </div>
+
+
+        <div class="duas-colunas">
+            <div class="bloco">
+                <h3>Principais Motivos de Falhas</h3>
+               
+                <div class="grafico-barras">
+                   
+                    <div class="barra-item">
+                        <div class="barra-info">
+                            <span>Elétrica</span>
+                            <span>35%</span>
+                        </div>
+                        <div class="barra-fundo">
+                            <div class="barra-preenchida" style="width: 35%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="barra-item">
+                        <div class="barra-info">
+                            <span>Motor</span>
+                            <span>28%</span>
+                        </div>
+                        <div class="barra-fundo">
+                            <div class="barra-preenchida" style="width: 28%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="barra-item">
+                        <div class="barra-info">
+                            <span>Suspensão</span>
+                            <span>22%</span>
+                        </div>
+                        <div class="barra-fundo">
+                            <div class="barra-preenchida" style="width: 22%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="barra-item">
+                        <div class="barra-info">
+                            <span>Freios</span>
+                            <span>15%</span>
+                        </div>
+                        <div class="barra-fundo">
+                            <div class="barra-preenchida" style="width: 15%;"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="bloco">
+            <div class="bloco-topo">
+                <h3>Atenção Imediata</h3>
+                <a href="#" class="ver-todos">VER TODOS</a>
+            </div>
+           
+            <div class="alertas-lista">
+               
+                <div class="alerta-item">
+                    <div class="alerta-barra critico"></div>
+                    <div class="alerta-info">
+                        <strong>VTR-3092</strong>
+                        <span>Q3L-8B21</span>
+                    </div>
+                    <span class="badge critico">Crítico</span>
+                </div>
+
+                <div class="alerta-item">
+                    <div class="alerta-barra critico"></div>
+                    <div class="alerta-info">
+                        <strong>VTR-2104</strong>
+                        <span>MGB-4A12</span>
+                    </div>
+                    <span class="badge critico">Crítico</span>
+                </div>
+
+                <div class="alerta-item">
+                    <div class="alerta-barra alerta"></div>
+                    <div class="alerta-info">
+                        <strong>VTR-4011</strong>
+                        <span>RXL-9C33</span>
+                    </div>
+                    <span class="badge alerta">Alerta</span>
+                </div>
+
+                <div class="alerta-item">
+                    <div class="alerta-barra ok"></div>
+                    <div class="alerta-info">
+                        <strong>VTR-1022</strong>
+                        <span>PLK-2Z99</span>
+                    </div>
+                    <span class="badge ok">Revisão Agend.</span>
+                </div>
+
+            </div>
+        </div>
+        </div>
+
+
+    </main>
+
+
+{% endblock content %}

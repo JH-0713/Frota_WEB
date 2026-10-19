@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="dashboard-content">
+   
+    <!-- TOPBAR INTERNO -->
+    <div class="topbar">
+        <div>
+            <h1>Cadastro de Viaturas</h1>
+            <p class="subtitulo">Insira os dados da nova viatura para integrá-la à frota ativa.</p>
+        </div>
+    </div>
+
+    <!-- FORMULÁRIO -->
+    <form action="{{url_for('cadastrar_viatura')}}" method="post">
+    <div class="form-container">
+       
+        <div class="form-linha">
+            <div class="form-campo">
+                <label>PLACA</label>
+                <input name="form_placa" type="text" placeholder="Ex: ABC1D23" >
+            </div>
+           
+        </div>
+
+        <div class="form-linha">
+            <div class="form-campo full">
+                <label>MODELO DA VIATURA</label>
+                <select name="form_modelo">
+                    <option>Selecione o modelo...</option>
+                    <option>Renault Duster</option>
+                    <option>Chevrolet Trailblazer</option>
+                    <option>Mitsubishi L200</option>
+                    <option>Toyota Hilux</option>
+                </select>
+            </div>
+            <div class="form-campo full">
+                <label>STATUS DA VIATURA</label>
+                <select name="form_status">
+                    <option value="disponivel">Disponivel</option>
+                    <option value="oficina">Oficina</option>
+                    <option value="atencao">Atenção</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-linha">
+            <div class="form-campo">
+                <label>ANO DE FABRICAÇÃO</label>
+                <input name="form_ano" type="text" placeholder="YYYY">
+            </div>
+            <div class="form-campo">
+                <label>ODÔMETRO INICIAL (KM)</label>
+                <input name="form_km_atual" type="number" placeholder="0">
+            </div>
+
+        </div>
+
+        <!-- BOTÃO -->
+        <div name="form-acoes" class="form-acoes">
+            <button class="btn-salvar">💾 SALVAR VIATURA</button>
+        </div>
+
+    </div>
+
+</main>
+
+{% endblock content %}

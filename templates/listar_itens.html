@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="dashboard-content">
+   
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div>
+            <h1>Listagem de Itens de Manutenção</h1>
+            <p class="subtitulo">Gerencie o estoque e peças de reposição da frota.</p>
+        </div>
+        <div class="topbar-acoes">
+            <a href="/cadastroItensManutencao" class="btn-incluir">+ Novo Item</a>
+        </div>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="filtros-container">
+        <input type="text" placeholder="Buscar por descrição ou ID..." class="filtro-busca">
+        <select class="filtro-select">
+            <option>Todas as Categorias</option>
+            <option>Elétrica</option>
+            <option>Motor</option>
+            <option>Suspensão</option>
+            <option>Freios</option>
+        </select>
+    </div>
+
+    <!-- TABELA -->
+    <div class="tabela-container">
+        <table class="tabela-viaturas">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Categoria</th>
+                    <th>Valor Unit.</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in var_itens %}
+                <tr>
+                    <td><strong>{{ item['id_item'] }}</strong></td>
+                    <td>{{ item.nome_item }}</td>
+                    <td>{{ item.descricao }}</td>
+                    <td>{{ item.categoria_falha }}</td>
+                    <td>{{ item.valor_unitario }}</td>
+                    <td class="acoes">✏️ 🗑️</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</main>
+
+{% endblock content %}

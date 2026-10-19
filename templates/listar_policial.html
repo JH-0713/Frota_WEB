@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="dashboard-content">
+   
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div>
+            <h1>Listagem de Policiais</h1>
+            <p class="subtitulo">Gerencie o efetivo e status de turno da unidade.</p>
+        </div>
+        <div class="topbar-acoes">
+            <input type="text" placeholder=" Buscar por nome ou matrícula..." class="topbar-busca">
+            <a href="{{url_for('cadastrar_policial')}}" class="btn-incluir">Cadastrar Policial</a>
+        </div>
+    </div>
+
+    <!-- TABELA -->
+    <div class="tabela-container">
+        <table class="tabela-viaturas">
+            <thead>
+                <tr>
+                    <th>Matrícula</th>
+                    <th>Nome Completo</th>
+                    <th>Email</th>
+                    <th>Cargo/Patente</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for policial in var_policial %}
+                <tr>
+                    <td><strong>{{ policial.matricula }}</strong></td>
+                    <td>{{ policial.nome }}</td>
+                    <td>{{ policial.email }}</td>
+                    <td><span class="tag-cargo">{{ policial.cargo_patente }}</span></td>
+                    <td class="acoes">✏️ 🗑️</td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+       
+
+
+    </div>
+
+</main>
+
+{% endblock %}
