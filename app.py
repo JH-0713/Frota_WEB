@@ -37,13 +37,13 @@ def listar_responsavel():
     return render_template('listar_responsavel.html', var_responsavel=var_responsavel)
 
 
-@app.route('/listar_viatura')
+@app.route('/listar_viatura', methods=['GET'])
 def listar_viatura():
     var_viatura = get_viatura()
     return render_template('listar_viatura.html', var_viatura=var_viatura)
 
 
-@app.route('/listar_itens')
+@app.route('/listar_itens', methods=['GET'])
 def listar_itens():
     var_itens = get_itens()
     return render_template('listar_itens.html', var_itens=var_itens)
@@ -75,8 +75,17 @@ def cadastrar_viatura():
     return render_template('cadastro_viatura.html')
 
 
-@app.route('/cadastrar_policial')
+@app.route('/cadastrar_policial', methods=['GET', 'POST'])
 def cadastrar_policial():
+    if request.method == "POST":
+        nome = request.form.get('form_nome')
+        email = request.form.get('form_email')
+        senha = request.form.get('form_senha')
+        cargo = request.form.get('form_cargo')
+
+        if not nome or not email or not senha or not cargo:
+            print('error: valores in')
+
     return render_template('cadastro_policial.html')
 
 
