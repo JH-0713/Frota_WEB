@@ -2,29 +2,27 @@
 
 {% block content %}
 
-<main class="dashboard-content">
-   
-    <div class="form-centralizado">
-        <div class="form-card-responsavel">
-           
-            <!-- CABEÇALHO -->
-            <div class="form-header">
-                <div>
-                    <h2 class="form-titulo-esq">Cadastro de Itens de Manutenção</h2>
-                    <p class="form-subtitulo-esq">Adicione novos componentes ao inventário de manutenção da frota.</p>
-                </div>
+<div class="form-centralizado">
+    <div class="form-card-responsavel">
+
+        <!-- CABEÇALHO -->
+        <div class="form-header">
+            <div>
+                <h2 class="form-titulo-esq">Cadastro de Itens de Manutenção</h2>
+                <p class="form-subtitulo-esq">Adicione novos componentes ao inventário de manutenção da frota.</p>
             </div>
-            <form action="{{url_for('cadastrar_item')}}" method="post">
-           
+        </div>
+        <form action="{{url_for('cadastrar_item')}}" method="post">
+
             <!-- CORPO -->
             <div class="form-corpo">
-               
-               
+
+
                 <!-- Subtítulo da seção -->
                 <div class="secao-titulo">
                     Detalhes do Item
                 </div>
-               
+
                 <div class="form-linha">
                     <div class="form-campo full">
                         <label>Nome do Item</label>
@@ -69,7 +67,7 @@
                 </div>
 
                 <!-- QUANTIDADE -->
-               
+
 
                 <!-- BOTÕES -->
                 <div class="form-acoes-responsavel">
@@ -79,12 +77,11 @@
 
 
             </div>
-            </form>
+        </form>
 
 
-        </div>
     </div>
+</div>
 
-</main>
 
 {% endblock content %}

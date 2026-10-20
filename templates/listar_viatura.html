@@ -2,62 +2,94 @@
 
 {% block content %}
 
-<main class="dashboard-content">
-   
-    <!-- TOPBAR -->
-    <div class="topbar">
-        <div>
-            <h1>Listagem de Viaturas</h1>
-            <p class="subtitulo">Gerencie as viaturas da frota e visualize seus status operacionais.</p>
-        </div>
-        <div class="topbar-acoes">
-            <input type="text" placeholder="Buscar por prefixo ou placa..." class="topbar-busca">
-            <a href="{{url_for('cadastrar_viatura')}}" class="btn-incluir">Cadastrar Viatura</a>
-        </div>
+<!-- TOPBAR -->
+<div class="topbar">
+    <div>
+        <h1>Listagem de Viaturas</h1>
+        <p class="subtitulo">Gerencie as viaturas da frota e visualize seus status operacionais.</p>
     </div>
+    <div class="topbar-acoes">
+        <input type="text" placeholder="Buscar por prefixo ou placa..." class="topbar-busca">
+        <a href="{{url_for('cadastrar_viatura')}}" class="btn-incluir">Cadastrar Viatura</a>
+    </div>
+</div>
 
-    <!-- TABELA -->
-    <div class="tabela-container">
-        <table class="tabela-viaturas">
-            <thead>
-                <tr>
-                    <th>Prefixo</th>
-                    <th>Placa</th>
-                    <th>Modelo</th>
-                    <th>Ano</th>
-                    <th>Odômetro</th>
-                    <th>Status</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for viatura in var_viatura %}
-                <tr>
-                    <td><strong>{{ viatura.prefixo }}</strong></td>
-                    <td>{{ viatura.placa }}</td>
-                    <td>{{ viatura.modelo }}</td>
-                    <td>{{ viatura.ano }}</td>
-                    <td>{{ viatura.km_atual }}</td>
-                    <td><span class="tag-cargo">{{ viatura.status_atual }}</span></td>
-                    <td class="acoes">✏️ 🗑️</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-       
-        <!-- RODAPÉ -->
-        <div class="tabela-rodape">
-            <span>Mostrando 1 a 4 de 124 viaturas</span>
-            <div class="paginacao">
-                <button class="ativo">1</button>
-                <button>2</button>
-                <button>3</button>
-                <span>...</span>
-                <button>›</button>
+<!-- TABELA -->
+<div class="tabela-container">
+    <table class="tabela-viaturas">
+        <thead>
+        <tr>
+            <th>Prefixo</th>
+            <th>Placa</th>
+            <th>Modelo</th>
+            <th>Ano</th>
+            <th>Odômetro</th>
+            <th>Status</th>
+            <th rowspan="2">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for i in var_viatura %}
+        <tr>
+            <td><strong>{{ i.prefixo }}</strong></td>
+            <td>{{ i.placa }}</td>
+            <td>{{ i.modelo }}</td>
+            <td>{{ i.ano }}</td>
+            <td>{{ i.km_atual }}</td>
+            <td><span class="tag-cargo">{{ i.status_atual }}</span></td>
+            <td class="acoes"><a data-bs-toggle="modal" data-bs-target="#editar_viatura{{i.id_viatura}}">✏️</a><a
+                    href="#t">🗑️</a></td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% for i in var_viatura %}
+    <div class="modal fade" id="editar_viatura{{i.id_viatura}}" tabindex="-1"
+         aria-labelledby="mostrar_viatura{{i.id_viatura}}"
+         aria-hidden="true">
+        <form id="form-editar" action="{{ url_for('editar_viatura', var_id = i.id_viatura) }}"
+              method="post">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="mostrar_viatura{{i.id_viatura}}"><i
+                                class="bi bi-pencil-square text-primary fs-6"></i> Editar Encomenda
+                            {{i.modelo}} - {{i.placa}}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label class="d-flex flex-column m-1">
+                                Modelo:
+                                <input type="text" name="form-modelo" value="{{i.modelo}}">
+                            </label>
+                        <div class="d-flex justify-content-between">
+                            <label class="d-flex flex-column m-1">
+                                Placa:
+                                <input type="text" name="form-placa" value="{{i.placa}}">
+                            </label>
+                            <label class="d-flex flex-column m-1">
+                                Ano de Fabricação:
+                                <input type="text" name="form-ano" value="{{i.ano}}">
+                            </label>
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">Editar
+                        </button>
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Fechar
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
+    {% endfor %}
+</div>
 
-</main>
 
 {% endblock content %}

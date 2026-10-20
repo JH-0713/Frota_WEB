@@ -2,64 +2,62 @@
 
 {% block content %}
 
-<main class="dashboard-content">
 
-    <div class="form-centralizado">
-        <div class="form-card-responsavel">
+<div class="form-centralizado">
+    <div class="form-card-responsavel">
 
-            <!-- CABEÇALHO DO CARD -->
-            <div class="form-header">
-                <h2 class="form-titulo-esq">Cadastro de Responsável</h2>
-                <p class="form-subtitulo-esq">Insira os dados do novo membro da equipe de manutenção e frota.</p>
-            </div>
-
-            <!-- CAMPOS -->
-            <form action="{{url_for('cadastrar_responsavel')}}" method="post">
-
-                <div class="form-linha">
-                    <div class="form-campo">
-                        <label>Gerado automaticamente</label>
-                        <input type="text" value="RSP-8042" disabled class="input-disabled">
-                    </div>
-                    <div class="form-campo">
-                        <label>Função / Cargo</label>
-                        <select name="form_cargo_funcao">
-                            <option>Selecione o cargo...</option>
-                            <option>Mecânico</option>
-                            <option>Eletricista</option>
-                            <option>Supervisor de Frota</option>
-                            <option>Gestor de Manutenção</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-linha">
-                    <div class="form-campo full">
-                        <label>Nome Completo</label>
-                        <input type="text" name="form_nome" placeholder="Ex: Sgt. João Silva">
-                    </div>
-                    <div class="form-campo full">
-                        <label>Email</label>
-                        <input type="text" name="form_email" placeholder="Ex: Sgt. João Silva">
-                    </div>
-                    <div class="form-campo full">
-                        <label>Senha</label>
-                        <input type="text" name="form_senha" placeholder="Ex: Sgt. João Silva">
-                    </div>
-                </div>
-
-                <!-- BOTÕES -->
-                <div class="form-acoes-responsavel">
-                    <button class="btn-cancelar">Cancelar</button>
-                    <button class="btn-cadastrar-resp">Cadastrar Responsável</button>
-                </div>
-            </form>
-
+        <!-- CABEÇALHO DO CARD -->
+        <div class="form-header">
+            <h2 class="form-titulo-esq">Cadastro de Responsável</h2>
+            <p class="form-subtitulo-esq">Insira os dados do novo membro da equipe de manutenção e frota.</p>
         </div>
 
+        <!-- CAMPOS -->
+        <form action="{{url_for('cadastrar_responsavel')}}" method="post">
+
+            <div class="form-linha">
+                <div class="form-campo">
+                    <label>Gerado automaticamente</label>
+                    <input type="text" value="RSP-8042" disabled class="input-disabled">
+                </div>
+                <div class="form-campo">
+                    <label>Função / Cargo</label>
+                    <select name="form_cargo_funcao">
+                        <option>Selecione o cargo...</option>
+                        <option>Mecânico</option>
+                        <option>Eletricista</option>
+                        <option>Supervisor de Frota</option>
+                        <option>Gestor de Manutenção</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-linha">
+                <div class="form-campo full">
+                    <label>Nome Completo</label>
+                    <input type="text" name="form_nome" placeholder="Ex: Sgt. João Silva">
+                </div>
+                <div class="form-campo full">
+                    <label>Email</label>
+                    <input type="text" name="form_email" placeholder="Ex: Sgt. João Silva">
+                </div>
+                <div class="form-campo full">
+                    <label>Senha</label>
+                    <input type="text" name="form_senha" placeholder="Ex: Sgt. João Silva">
+                </div>
+            </div>
+
+            <!-- BOTÕES -->
+            <div class="form-acoes-responsavel">
+                <button class="btn-cancelar">Cancelar</button>
+                <button class="btn-cadastrar-resp">Cadastrar Responsável</button>
+            </div>
+        </form>
 
     </div>
 
-</main>
+
+</div>
+
 
 {% endblock content %}

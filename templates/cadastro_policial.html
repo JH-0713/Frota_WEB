@@ -2,73 +2,71 @@
 
 {% block content %}
 
-<main class="dashboard-content">
 
-    <div class="form-centralizado">
-        <div class="form-card">
+<div class="form-centralizado">
+    <div class="form-card">
 
-            <!-- ÍCONE -->
-            <div><img class="form-icone-topo" src="../static/img/profile.png" alt="profile police"></div>
+        <!-- ÍCONE -->
+        <div><img class="form-icone-topo" src="../static/img/profile.png" alt="profile police"></div>
 
-            <!-- TÍTULO -->
-            <h2 class="form-titulo">Cadastro de Policial</h2>
-            <p class="form-subtitulo">Insira os dados do oficial para registrá-lo no sistema de frota.</p>
-            <form action="{{url_for('cadastrar_policial')}}" method="post">
+        <!-- TÍTULO -->
+        <h2 class="form-titulo">Cadastro de Policial</h2>
+        <p class="form-subtitulo">Insira os dados do oficial para registrá-lo no sistema de frota.</p>
+        <form action="{{url_for('cadastrar_policial')}}" method="post">
 
-                <!-- CAMPOS -->
-                <div class="form-linha">
+            <!-- CAMPOS -->
+            <div class="form-linha">
 
-                    <div class="form-campo">
-                        <label>Nome Completo</label>
-                        <div class="input-com-icone">
-                            <span class="input-icone"></span>
-                            <input name="form_nome" type="text" placeholder="Ex: João da Silva">
-                        </div>
+                <div class="form-campo">
+                    <label>Nome Completo</label>
+                    <div class="input-com-icone">
+                        <span class="input-icone"></span>
+                        <input name="form_nome" type="text" placeholder="Ex: João da Silva">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-linha">
+                <div class="form-campo">
+                    <label>E-mail</label>
+                    <div class="input-com-icone">
+                        <span class="input-icone"></span>
+                        <input name="form_email" type="text" placeholder="Ex: anonimo1@gmail.com">
                     </div>
                 </div>
 
-                <div class="form-linha">
-                    <div class="form-campo">
-                        <label>E-mail</label>
-                        <div class="input-com-icone">
-                            <span class="input-icone"></span>
-                            <input name="form_email" type="text" placeholder="Ex: anonimo1@gmail.com">
-                        </div>
-                    </div>
-
-                    <div class="form-campo">
-                        <label>Senha</label>
-                        <div class="input-com-icone">
-                            <span class="input-icone"></span>
-                            <input name="form_senha" type="text" placeholder="Ex: S3nh@1">
-                        </div>
+                <div class="form-campo">
+                    <label>Senha</label>
+                    <div class="input-com-icone">
+                        <span class="input-icone"></span>
+                        <input name="form_senha" type="text" placeholder="Ex: S3nh@1">
                     </div>
                 </div>
+            </div>
 
-                <div class="form-linha">
-                    <div class="form-campo">
-                        <label>Cargo / Patente</label>
-                        <select name="form_cargo">
-                            <option>Selecione a patente</option>
-                            <option>Soldado</option>
-                            <option>Cabo</option>
-                            <option>Sargento</option>
-                            <option>Tenente</option>
-                            <option>Capitão</option>
-                        </select>
-                    </div>
+            <div class="form-linha">
+                <div class="form-campo">
+                    <label>Cargo / Patente</label>
+                    <select name="form_cargo">
+                        <option>Selecione a patente</option>
+                        <option>Soldado</option>
+                        <option>Cabo</option>
+                        <option>Sargento</option>
+                        <option>Tenente</option>
+                        <option>Capitão</option>
+                    </select>
                 </div>
+            </div>
 
-                <!-- BOTÕES -->
-                <div class="form-acoes">
-                    <button type="reset" class="btn-limpar">Limpar Formulário</button>
-                    <button type="submit" class="btn-salvar">Salvar Policial</button>
-                </div>
-            </form>
+            <!-- BOTÕES -->
+            <div class="form-acoes">
+                <button type="reset" class="btn-limpar">Limpar Formulário</button>
+                <button type="submit" class="btn-salvar">Salvar Policial</button>
+            </div>
+        </form>
 
-        </div>
     </div>
+</div>
 
-</main>
 
 {% endblock %}
