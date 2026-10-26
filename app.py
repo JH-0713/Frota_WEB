@@ -27,25 +27,24 @@ def frota():
 @app.route('/listar_policial', methods=['GET'])
 def listar_policial():
     var_policial = get_policial()
-    return render_template('listar_policial.html', var_policial=var_policial[0])
+    return render_template('listar_policial.html', var_policial=var_policial)
 
 
 @app.route('/listar_responsavel', methods=['GET'])
 def listar_responsavel():
     var_responsavel = get_responsavel()
-    return render_template('listar_responsavel.html', var_responsavel=var_responsavel[0])
+    return render_template('listar_responsavel.html', var_responsavel=var_responsavel)
 
 
 @app.route('/listar_viatura', methods=['GET'])
 def listar_viatura():
     var_viatura = get_viatura()
-    return render_template('listar_viatura.html', var_viatura=var_viatura[0])
-
+    return render_template('listar_viatura.html', var_viatura=var_viatura)
 
 @app.route('/listar_itens', methods=['GET'])
 def listar_itens():
     var_itens = get_itens()
-    return render_template('listar_itens.html', var_itens=var_itens[0])
+    return render_template('listar_itens.html', var_itens=var_itens)
 
 
 @app.route('/cadastrar_viatura', methods=['GET', 'POST'])
@@ -56,7 +55,7 @@ def cadastrar_viatura():
         ano = request.form.get('form_ano')
         km_atual = request.form.get('form_km_atual')
 
-        if not placa or not modelo or not ano or not km_atual:
+        if not placa or not modelo or not ano or not km_atual or modelo == "None":
             flash("Preencha todos os campos", "danger")
             return redirect(url_for('cadastrar_viatura'))
 

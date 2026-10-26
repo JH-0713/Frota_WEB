@@ -38,17 +38,18 @@
         <div class="form-campo full">
             <label>MODELO DA VIATURA</label>
             <select name="form_modelo">
-                <option selected>Selecione o modelo...</option>
+                <option value="None" selected>Selecione o modelo...</option>
                 {% for i in var_modelos %}
-                <option>{{i.modelo}}/{{i.marca}}</option>
+                <option value="{{i.id_carro}}">{{i.marca}} - {{i.modelo}}</option>
                 {% endfor %}
+
             </select>
         </div>
 
         <!-- BOTÃO -->
         <div name="form-acoes" class="form-acoes">
             <a class="btn-salvar bg-danger" href="{{url_for('listar_viatura')}}" type="button">Voltar</a>
-            <a class="btn-salvar bg-info" type="submit">Salvar Viatura</a>
+            <button class="btn-salvar bg-info" type="submit">Salvar Viatura</button>
         </div>
 
     </div>
