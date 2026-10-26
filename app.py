@@ -38,8 +38,9 @@ def listar_responsavel():
 
 @app.route('/listar_viatura', methods=['GET'])
 def listar_viatura():
+    var_modelos = get_modelo()
     var_viatura = get_viatura()
-    return render_template('listar_viatura.html', var_viatura=var_viatura)
+    return render_template('listar_viatura.html', var_viatura=var_viatura, var_modelos=var_modelos)
 
 @app.route('/listar_itens', methods=['GET'])
 def listar_itens():
@@ -73,9 +74,8 @@ def cadastrar_viatura():
             print(f'Error: {e}')
             flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
             return redirect(url_for('cadastrar_viatura'))
-
     var_modelos = get_modelo()
-    return render_template('cadastro_viatura.html',var_modelos=var_modelos[0])
+    return render_template('cadastro_viatura.html',var_modelos=var_modelos)
 
 
 @app.route('/cadastrar_policial', methods=['GET', 'POST'])
@@ -277,6 +277,18 @@ def editar_item(var_id):
             flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
             print(f'Error: {e}')
             return redirect(url_for('listar_responsavel'))
+
+@app.route('/deletar_viatura/<var_id>', methods=['POST'])
+def deletar_viatura(var_id):
+    if request.method == "POST":
+        delete_v1 = delete_viatura(var_id)
+
+        if delete_v1 == 200:
+            flash("Viatura deletado com sucesso", "success")
+            return redirect(url_for('listar_viatura'))
+        else:
+            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
+            return redirect(url_for('listar_viatura'))
 
 @app.route('/historicoManutencao')
 def historicoManutencao():

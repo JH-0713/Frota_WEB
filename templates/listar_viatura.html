@@ -35,54 +35,57 @@
             <td>{{ i['viatura']['placa'] }}</td>
             <td>{{ i['carro_modelo']['modelo'] }}</td>
             <td>{{ i['viatura']['ano'] }}</td>
-            <td>{{ i['viatura']['km_atual'] }}</td>
+            <td>{{ i['viatura']['km_atual'] }} km</td>
             <td><span class="tag-cargo">{{ i['viatura']['status_atual'] }}</span></td>
-            <td class="acoes"><a data-bs-toggle="modal" data-bs-target="#editar_viatura{{i.id_viatura}}">✏️</a><a
-                    href="#">🗑️</a></td>
+            <td class="acoes">
+                <a data-bs-toggle="modal" data-bs-target="#editar_viatura{{i['viatura']['id_viatura']}}">✏️</a>
+                <a data-bs-toggle="modal" data-bs-target="#delete_viatura{{i['viatura']['id_viatura']}}">🗑️</a>
+            </td>
 
         </tr>
         {% endfor %}
         </tbody>
     </table>
     {% for i in var_viatura %}
-    <div class="modal fade" id="editar_viatura{{i.id_viatura}}" tabindex="-1"
-         aria-labelledby="mostrar_viatura{{i.id_viatura}}"
+    <div class="modal fade" id="editar_viatura{{i['viatura']['id_viatura']}}" tabindex="-1"
+         aria-labelledby="mostrar_viatura{{i['viatura']['id_viatura']}}"
          aria-hidden="true">
-        <form id="form-editar" action="{{ url_for('editar_viatura', var_id = i.id_viatura) }}"
+        <form id="form-editar" action="{{ url_for('editar_viatura', var_id = i['viatura']['id_viatura']) }}"
               method="post">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="mostrar_viatura{{i.id_viatura}}"><i
-                                class="bi bi-pencil-square text-primary fs-6"></i> Editar Viatura<br>
-                            {{i.modelo}} - {{i.prefixo}}</h1>
+                        <h1 class="modal-title fs-5" id="mostrar_viatura{{i['viatura']['id_viatura']}}"><i
+                                class="bi bi-pencil-square text-primary fs-6"></i> Editar Viatura
+                            {{i['carro_modelo']['modelo']}} - {{i['viatura']['prefixo']}}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <label>
                             Modelo:
-                            <input type="text" name="form-modelo" value="{{i.modelo}}">
-                            <select name="form_modelo">
-                                <option selected>{{i.modelo}}</option>
-                                <option>Renault Duster</option>
-                                <option>Chevrolet Trailblazer</option>
-                                <option>Mitsubishi L200</option>
-                                <option>Toyota Hilux</option>
+                            <select name="form-modelo">
+                                {% for i1 in var_modelos %}
+                                    {% if i1.id_carro == i['viatura']['modelo_id'] %}
+                                        <option value="{{i1.id_carro}}" selected>{{i1.modelo}}</option>
+                                    {% else %}
+                                        <option value="{{i1.id_carro}}">{{i1.modelo}}</option>
+                                    {% endif %}
+                                {% endfor %}
                             </select>
                         </label>
                         <label>
                             Odômetro:
-                            <input type="text" name="form-odometro" value="{{i.km_atual}}">
+                            <input type="text" name="form-odometro" value="{{i['viatura']['km_atual']}}">
                         </label>
                         <div class="d-flex justify-content-between">
                             <label>
                                 Placa:
-                                <input type="text" name="form-placa" value="{{i.placa}}">
+                                <input type="text" name="form-placa" value="{{i['viatura']['placa']}}">
                             </label>
                             <label>
                                 Ano de Fabricação:
-                                <input type="text" name="form-ano" value="{{i.ano}}">
+                                <input type="text" name="form-ano" value="{{i['viatura']['ano']}}">
                             </label>
                         </div>
 
@@ -93,6 +96,32 @@
                         </button>
                         <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">Fechar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="delete_viatura{{i['viatura']['id_viatura']}}" tabindex="-1"
+         aria-labelledby="mostrar_delete_viatura{{i['viatura']['id_viatura']}}"
+         aria-hidden="true">
+        <form id="form-deletar" action="{{ url_for('deletar_viatura', var_id = i['viatura']['id_viatura']) }}"
+              method="post">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="mostrar_delete_viatura{{i['viatura']['id_viatura']}}"><i
+                                class="bi bi-pencil-square text-primary fs-6"></i> Deseja deletar Viatura:
+                            {{i['carro_modelo']['modelo']}} - {{i['viatura']['prefixo']}}?</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Deletar
+                        </button>
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Voltar
                         </button>
                     </div>
                 </div>

@@ -74,6 +74,13 @@ def put_viatura(placa, ano, km_atual,modelo,var_id):
 
     return result_viatura.status_code
 
+def delete_viatura(var_id):
+    url = f"{endereco}/delete_viatura/{var_id}"
+
+    result_viatura = requests.delete(url)
+
+    return result_viatura.status_code
+
 
 def get_responsavel():
     url = f"{endereco}/get_responsaveis"
