@@ -54,27 +54,38 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="mostrar_viatura{{i.id_viatura}}"><i
-                                class="bi bi-pencil-square text-primary fs-6"></i> Editar Encomenda
-                            {{i.modelo}} - {{i.placa}}</h1>
+                                class="bi bi-pencil-square text-primary fs-6"></i> Editar Viatura<br>
+                            {{i.modelo}} - {{i.prefixo}}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <label class="d-flex flex-column m-1">
-                                Modelo:
-                                <input type="text" name="form-modelo" value="{{i.modelo}}">
-                            </label>
+                        <label>
+                            Modelo:
+                            <input type="text" name="form-modelo" value="{{i.modelo}}">
+                            <select name="form_modelo">
+                                <option selected>{{i.modelo}}</option>
+                                <option>Renault Duster</option>
+                                <option>Chevrolet Trailblazer</option>
+                                <option>Mitsubishi L200</option>
+                                <option>Toyota Hilux</option>
+                            </select>
+                        </label>
+                        <label>
+                            Odômetro:
+                            <input type="text" name="form-odometro" value="{{i.km_atual}}">
+                        </label>
                         <div class="d-flex justify-content-between">
-                            <label class="d-flex flex-column m-1">
+                            <label>
                                 Placa:
                                 <input type="text" name="form-placa" value="{{i.placa}}">
                             </label>
-                            <label class="d-flex flex-column m-1">
+                            <label>
                                 Ano de Fabricação:
                                 <input type="text" name="form-ano" value="{{i.ano}}">
                             </label>
-
                         </div>
+
 
                     </div>
                     <div class="modal-footer">

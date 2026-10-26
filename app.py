@@ -8,7 +8,7 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 from functools import wraps
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'VaiCagarRicardo'
+app.config['SECRET_KEY'] = "VaiCagaRicardo"
 
 
 @app.route('/')
@@ -33,7 +33,6 @@ def listar_policial():
 @app.route('/listar_responsavel', methods=['GET'])
 def listar_responsavel():
     var_responsavel = get_responsavel()
-    print("Responsavel:", var_responsavel)
     return render_template('listar_responsavel.html', var_responsavel=var_responsavel[0])
 
 
@@ -56,17 +55,15 @@ def cadastrar_viatura():
         modelo = request.form.get('form_modelo')
         ano = request.form.get('form_ano')
         km_atual = request.form.get('form_km_atual')
-        status_atual = request.form.get('form_status')
-        print(placa, modelo, ano, km_atual, status_atual)
 
-        if not placa or not modelo or not ano or not km_atual or not status_atual:
+        if not placa or not modelo or not ano or not km_atual:
             flash("Preencha todos os campos", "danger")
             return redirect(url_for('cadastrar_viatura'))
 
         try:
-            pv1 = post_viatura(placa=placa, modelo=modelo, ano=ano, km_atual=km_atual, status_atual=status_atual)
-
-            if pv1[1] == 200:
+            pv1 = post_viatura(placa=placa, modelo=modelo, ano=ano, km_atual=km_atual)
+            print(f'pv1: {pv1}')
+            if pv1 == 201:
                 flash("Viatura cadastrada com sucesso!", "success")
                 return redirect(url_for('listar_viatura'))
             else:
@@ -78,7 +75,8 @@ def cadastrar_viatura():
             flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
             return redirect(url_for('cadastrar_viatura'))
 
-    return render_template('cadastro_viatura.html')
+    var_modelos = get_modelo()
+    return render_template('cadastro_viatura.html',var_modelos=var_modelos[0])
 
 
 @app.route('/cadastrar_policial', methods=['GET', 'POST'])
@@ -97,7 +95,7 @@ def cadastrar_policial():
         try:
             pp1 = post_policial(nome=nome, email=email, senha=senha,cargo_patente=cargo)
 
-            if pp1[1] == 200:
+            if pp1 == 201:
                 flash("Viatura cadastrada com sucesso!", "success")
                 return redirect(url_for('listar_viatura'))
             else:
@@ -110,7 +108,6 @@ def cadastrar_policial():
             return redirect(url_for('cadastrar_responsavel'))
 
     return render_template('cadastro_policial.html')
-
 
 @app.route('/cadastrar_responsavel', methods=['GET', 'POST'])
 def cadastrar_responsavel():
@@ -130,7 +127,7 @@ def cadastrar_responsavel():
         try:
             pr1 = post_responsavel(nome=nome, cargo_funcao=cargo, email=email, senha=senha)
 
-            if pr1[1] == 200:
+            if pr1 == 201:
                 flash("Viatura cadastrada com sucesso!", "success")
                 return redirect(url_for('listar_viatura'))
             else:
@@ -143,7 +140,6 @@ def cadastrar_responsavel():
             return redirect(url_for('cadastrar_responsavel'))
 
     return render_template('cadastro_responsavel.html')
-
 
 @app.route('/cadastrar_item', methods=['GET', 'POST'])
 def cadastrar_item():
@@ -161,7 +157,7 @@ def cadastrar_item():
         try:
             pi1 = post_item(nome_item=nome, descricao=descricao, categoria_falha=categoria, valor_unitario=valor_unitario)
 
-            if pi1[1] == 200:
+            if pi1 == 201:
                 flash("Viatura cadastrada com sucesso!", "success")
                 return redirect(url_for('listar_viatura'))
             else:
@@ -178,20 +174,19 @@ def cadastrar_item():
 @app.route('/editar_viatura/<var_id>', methods=['POST'])
 def editar_viatura(var_id):
     if request.method == "POST":
-        placa = request.form.get('form_placa')
-        modelo = request.form.get('form_modelo')
-        ano = request.form.get('form_ano')
-        km_atual = request.form.get('form_km_atual')
-        status_atual = request.form.get('form_status')
+        placa = request.form.get('form-placa')
+        modelo = request.form.get('form-modelo')
+        ano = request.form.get('form-ano')
+        km_atual = request.form.get('form-odometro')
 
-        if not placa or not modelo or not ano or not km_atual or not status_atual:
+        if not placa or not modelo or not ano or not km_atual:
             flash("Preencha todos os campos", "danger")
             return redirect(url_for('listar_viatura'))
         try:
-            put_v1 = put_viatura(placa=placa, ano=ano, km_atual=km_atual, modelo=modelo, status_atual=status_atual,
+            put_v1 = put_viatura(placa=placa, ano=ano, km_atual=km_atual, modelo=modelo,
                                  var_id=var_id)
 
-            if put_v1[1] == 200:
+            if put_v1 == 200:
                 flash("Viatura editada com sucesso", "success")
                 return redirect(url_for('listar_viatura'))
             else:
@@ -218,7 +213,7 @@ def editar_policial(var_id):
             put_p1 = put_policial(nome=nome, email=email, senha=senha, cargo_patente=cargo,
                                  var_id=var_id)
 
-            if put_p1[1] == 200:
+            if put_p1 == 200:
                 flash("Policial editada com sucesso", "success")
                 return redirect(url_for('listar_policial'))
             else:
@@ -245,7 +240,7 @@ def editar_responsavel(var_id):
             put_r1 = put_responsavel(nome=nome, email=email, senha=senha, cargo_funcao=cargo,
                                  var_id=var_id)
 
-            if put_r1[1] == 200:
+            if put_r1 == 200:
                 flash("Responsavel editada com sucesso", "success")
                 return redirect(url_for('listar_responsavel'))
             else:
@@ -272,7 +267,7 @@ def editar_item(var_id):
             put_r1 = put_item(nome_item=nome, descricao=descricao, categoria=categoria, valor_unitario=valor,
                                  var_id=var_id)
 
-            if put_r1[1] == 200:
+            if put_r1 == 200:
                 flash("Item editada com sucesso", "success")
                 return redirect(url_for('listar_responsavel'))
             else:

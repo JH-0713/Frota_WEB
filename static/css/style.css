@@ -1293,3 +1293,15 @@ header {
         width: 100%;
     }
 }
+
+.modal-body label{
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+}
+
+.modal-body label input {
+    border-radius: 5px;
+    border-color: #1E293B;
+
+}
