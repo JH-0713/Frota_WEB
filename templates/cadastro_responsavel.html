@@ -1,63 +1,55 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="topbar">
+    <div>
+        <h1>Cadastro de Responsavel</h1>
+        <p class="subtitulo">Insira os dados da novo responsavel para integrá-la à frota ativa.</p>
+    </div>
+</div>
 
+<form action="{{url_for('cadastrar_responsavel')}}" method="post">
+    <div class="form-container">
 
-<div class="form-centralizado">
-    <div class="form-card-responsavel">
+        <div class="form-linha">
+            <div class="form-campo">
+                <label for="placa">NOME COMPLETO</label>
+                <input id="placa" name="form_placa" type="text" placeholder="Ex: Joaquin Gomes da Silva">
+            </div>
 
-        <!-- CABEÇALHO DO CARD -->
-        <div class="form-header">
-            <h2 class="form-titulo-esq">Cadastro de Responsável</h2>
-            <p class="form-subtitulo-esq">Insira os dados do novo membro da equipe de manutenção e frota.</p>
+        </div>
+        <div class="form-linha">
+            <div class="form-campo">
+                <label for="email">E-MAIL</label>
+                <input id="email" name="form_placa" type="text" placeholder="Ex: j0aqu1n@gmail.com">
+            </div>
+
+        </div>
+        <div class="form-linha">
+            <div class="form-campo">
+                <label for="senha">SENHA</label>
+                <input id="senha" name="form_placa" type="text" placeholder="Ex: J0@qu1nG0m3s">
+            </div>
         </div>
 
-        <!-- CAMPOS -->
-        <form action="{{url_for('cadastrar_responsavel')}}" method="post">
+        <div class="form-campo full">
+            <label for="modelo">CARGO DO RESPONSAVEL</label>
+            <select id="modelo" name="form_modelo">
+                <option value="None" selected>Selecione o cargo...</option>
+                {% for i in var_cargos %}
+                <option value="{{i.id_cargo}}">{{i.nome_cargo}} - {{i.categoria}}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-            <div class="form-linha">
-                <div class="form-campo">
-                    <label>Gerado automaticamente</label>
-                    <input type="text" value="RSP-8042" disabled class="input-disabled">
-                </div>
-                <div class="form-campo">
-                    <label>Função / Cargo</label>
-                    <select name="form_cargo_funcao">
-                        <option>Selecione o cargo...</option>
-                        <option>Mecânico</option>
-                        <option>Eletricista</option>
-                        <option>Supervisor de Frota</option>
-                        <option>Gestor de Manutenção</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-linha">
-                <div class="form-campo full">
-                    <label>Nome Completo</label>
-                    <input type="text" name="form_nome" placeholder="Ex: Sgt. João Silva">
-                </div>
-                <div class="form-campo full">
-                    <label>Email</label>
-                    <input type="text" name="form_email" placeholder="Ex: Sgt. João Silva">
-                </div>
-                <div class="form-campo full">
-                    <label>Senha</label>
-                    <input type="text" name="form_senha" placeholder="Ex: Sgt. João Silva">
-                </div>
-            </div>
-
-            <!-- BOTÕES -->
-            <div class="form-acoes-responsavel">
-                <button class="btn-cancelar">Cancelar</button>
-                <button class="btn-cadastrar-resp">Cadastrar Responsável</button>
-            </div>
-        </form>
+        <!-- BOTÃO -->
+        <div class="form-acoes">
+            <a class="btn-salvar bg-danger" href="{{url_for('listar_responsavel')}}" type="button">Voltar</a>
+            <button class="btn-salvar bg-info" type="submit">Salvar Responsavel</button>
+        </div>
 
     </div>
-
-
-</div>
+</form>
 
 
 {% endblock content %}

@@ -24,8 +24,22 @@ def frota():
     return render_template('frota.html')
 
 
-@app.route('/listar_policial', methods=['GET'])
+@app.route('/listar_policial', methods=['GET','POST'])
 def listar_policial():
+    if request.method == "POST":
+        matricula = request.form.get('form_pesquisa')
+        if not matricula:
+            flash("Valores não atribuidos", "danger")
+            return redirect(url_for('listar_policial'))
+
+        var_policial = pesquisar_polical(matricula)
+
+        if var_policial[1] == 200:
+            flash(f"Resultados da pesquisa: {matricula}", "success")
+            return render_template("listar_policial.html", var_policial=var_policial[0])
+        else:
+            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', "danger")
+            return redirect(url_for('listar_policial'))
     var_policial = get_policial()
     return render_template('listar_policial.html', var_policial=var_policial)
 
@@ -33,7 +47,8 @@ def listar_policial():
 @app.route('/listar_responsavel', methods=['GET'])
 def listar_responsavel():
     var_responsavel = get_responsavel()
-    return render_template('listar_responsavel.html', var_responsavel=var_responsavel)
+    var_cargos = get_cargo()
+    return render_template('listar_responsavel.html', var_responsavel=var_responsavel,var_cargos=var_cargos)
 
 
 @app.route('/listar_viatura', methods=['GET'])
@@ -41,6 +56,7 @@ def listar_viatura():
     var_modelos = get_modelo()
     var_viatura = get_viatura()
     return render_template('listar_viatura.html', var_viatura=var_viatura, var_modelos=var_modelos)
+
 
 @app.route('/listar_itens', methods=['GET'])
 def listar_itens():
@@ -137,8 +153,9 @@ def cadastrar_responsavel():
             print(f'Error: {e}')
             flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
             return redirect(url_for('cadastrar_responsavel'))
+    var_cargos = get_cargo()
 
-    return render_template('cadastro_responsavel.html')
+    return render_template('cadastro_responsavel.html',var_cargos=var_cargos)
 
 @app.route('/cadastrar_item', methods=['GET', 'POST'])
 def cadastrar_item():
@@ -170,6 +187,8 @@ def cadastrar_item():
 
     return render_template('cadastro_item.html')
 
+
+
 @app.route('/editar_viatura/<var_id>', methods=['POST'])
 def editar_viatura(var_id):
     if request.method == "POST":
@@ -182,7 +201,7 @@ def editar_viatura(var_id):
             flash("Preencha todos os campos", "danger")
             return redirect(url_for('listar_viatura'))
         try:
-            put_v1 = put_viatura(placa=placa, ano=ano, km_atual=km_atual, modelo=modelo,
+            put_v1 = put_viatura(placa=placa, ano=ano, km_atual=km_atual, modelo=int(modelo),
                                  var_id=var_id)
 
             if put_v1 == 200:
@@ -289,6 +308,54 @@ def deletar_viatura(var_id):
         else:
             flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
             return redirect(url_for('listar_viatura'))
+
+
+
+@app.route('/pesquisa_viatura', methods=['POST'])
+def pesquisa_viatura():
+    if request.method == "POST":
+        v_text = request.form.get('form_pesquisa')
+        if not v_text:
+            flash("Preencha todos os campos", "danger")
+            return redirect(url_for('listar_viatura'))
+        elif v_text.isalpha():
+            flash("Digite o Prefixo da Viatura", "danger")
+            return redirect(url_for('listar_viatura'))
+
+        var_pesquisa_v = pesquisar_viatura(v_text)
+        var_modelo = get_modelo()
+
+        print('status', var_pesquisa_v[1])
+        if var_pesquisa_v[1] == 200:
+            flash(f'Resultado da pesquisa: {v_text}', 'success')
+            return render_template('pesquisa_viatura.html',var_viatura=var_pesquisa_v[0],var_modelos=var_modelo)
+        elif var_pesquisa_v[1] == 400:
+            flash(f'Item não encontrado', 'danger')
+            return redirect(url_for('listar_viatura'))
+        else:
+            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
+            return redirect(url_for('listar_viatura'))
+
+@app.route('/pesquisa_itens', methods=['POST'])
+def pesquisa_itens():
+    if request.method == "POST":
+        v_text = request.form.get('form_pesquisa')
+        if not v_text:
+            flash("Preencha todos os campos", "danger")
+            return redirect(url_for('listar_itens'))
+
+        var_pesquisa_i = pesquisar_itens(v_text)
+
+        print('status', var_pesquisa_i[1])
+        if var_pesquisa_i[1] == 200:
+            flash(f'Resultado da pesquisa: {v_text}', 'success')
+            return render_template('pesquisa_itens.html',var_itens=var_pesquisa_i[0])
+        elif var_pesquisa_i[1] == 400:
+            flash(f'Item não encontrado', 'danger')
+            return redirect(url_for('listar_itens'))
+        else:
+            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
+            return redirect(url_for('listar_itens'))
 
 @app.route('/historicoManutencao')
 def historicoManutencao():

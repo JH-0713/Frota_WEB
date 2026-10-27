@@ -10,20 +10,12 @@
         <p class="subtitulo">Gerencie o estoque e peças de reposição da frota.</p>
     </div>
     <div class="topbar-acoes">
-        <a href="/cadastroItensManutencao" class="btn-incluir">+ Novo Item</a>
+        <form action="{{url_for('pesquisa_itens')}}" method="post">
+            <label for="pesquisa_item"></label>
+            <input id="pesquisa_item" name="form_pesquisa" type="text" placeholder="Buscar pelo nome..." class="filtro-busca">
+        </form>
+        <a href="{{url_for('cadastrar_item')}}" class="btn-incluir">Cadastrar Item</a>
     </div>
-</div>
-
-<!-- FILTROS -->
-<div class="filtros-container">
-    <input type="text" placeholder="Buscar por descrição ou ID..." class="filtro-busca">
-    <select class="filtro-select">
-        <option>Todas as Categorias</option>
-        <option>Elétrica</option>
-        <option>Motor</option>
-        <option>Suspensão</option>
-        <option>Freios</option>
-    </select>
 </div>
 
 <!-- TABELA -->

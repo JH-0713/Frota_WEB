@@ -1,87 +1,64 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<div class="form-centralizado">
-    <div class="form-card-responsavel">
-
-        <!-- CABEÇALHO -->
-        <div class="form-header">
-            <div>
-                <h2 class="form-titulo-esq">Cadastro de Itens de Manutenção</h2>
-                <p class="form-subtitulo-esq">Adicione novos componentes ao inventário de manutenção da frota.</p>
-            </div>
-        </div>
-        <form action="{{url_for('cadastrar_item')}}" method="post">
-
-            <!-- CORPO -->
-            <div class="form-corpo">
-
-
-                <!-- Subtítulo da seção -->
-                <div class="secao-titulo">
-                    Detalhes do Item
-                </div>
-
-                <div class="form-linha">
-                    <div class="form-campo full">
-                        <label>Nome do Item</label>
-                        <input type="text" name="form_nome" placeholder="Ex: Pastilha de freio dianteira">
-                        <small class="input-ajuda">Nome completo do Item.</small>
-                    </div>
-                </div>
-
-                <!-- DESCRIÇÃO -->
-                <div class="form-linha">
-                    <div class="form-campo full">
-                        <label>Descrição</label>
-                        <input type="text" name="form_descricao" placeholder="Ex: Pastilha de freio dianteira">
-                        <small class="input-ajuda">Descrição do Item.</small>
-                    </div>
-                </div>
-
-                <!-- CATEGORIA + VALOR -->
-                <div class="form-linha">
-                    <div class="form-campo">
-                        <label>Categoria da Falha</label>
-                        <select name="form_categoria">
-                            <option value="none">Selecione uma categoria</option>
-                            <option value="motor">Motor</option>
-                            <option value="cambio">Cambio</option>
-                            <option value="embreagem">Embreagem</option>
-                            <option value="freio">Freio</option>
-                            <option value="suspensao">Suspensão</option>
-                            <option value="direcao">Direção</option>
-                            <option value="bateria">Bateria</option>
-                            <option value="injecao_eletronica">Injeção Eletronica</option>
-                            <option value="iluminacao">Iluminação</option>
-                            <option value="ar_condicionado">Ar Condicionado</option>
-                            <option value="arrefecimento">Arrefecimento</option>
-                            <option value="alimentacao">Alimentação</option>
-                        </select>
-                    </div>
-                    <div class="form-campo">
-                        <label>Valor Unitário (R$)</label>
-                        <input type="text" name="form_valor" placeholder="R$ 0,00">
-                    </div>
-                </div>
-
-                <!-- QUANTIDADE -->
-
-
-                <!-- BOTÕES -->
-                <div class="form-acoes-responsavel">
-                    <button class="btn-cancelar" type="reset">Cancelar</button>
-                    <button class="btn-salvar" type="submit">Salvar Item</button>
-                </div>
-
-
-            </div>
-        </form>
-
-
+<div class="topbar">
+    <div>
+        <h1>Cadastro de Item</h1>
+        <p class="subtitulo">Insira os dados da novo item para integrá-la à frota ativa.</p>
     </div>
 </div>
+
+<form action="{{url_for('cadastrar_item')}}" method="post">
+    <div class="form-container">
+
+        <div class="form-linha">
+            <div class="form-campo">
+                <label for="placa">NOME DO ITEM</label>
+                <input id="placa" name="form_nome" type="text" placeholder="Ex: Giroflex">
+            </div>
+
+        </div>
+        <div class="form-linha">
+            <div class="form-campo">
+                <label for="email">DESCRIÇÃO</label>
+                <textarea id="email" name="form_descricao" rows="1" style="resize: none"
+                          placeholder="Ex: Dispositivo luminoso rotativo ou intermitente"></textarea>
+            </div>
+        </div>
+        <div class="form-linha">
+            <div class="form-campo">
+                <label for="categoria">CATEGORIA</label>
+                <select name="form_categoria" id="categoria">
+                    <option value="none">Selecione uma categoria</option>
+                    <option value="motor">Motor</option>
+                    <option value="cambio">Cambio</option>
+                    <option value="embreagem">Embreagem</option>
+                    <option value="freio">Freio</option>
+                    <option value="suspensao">Suspensão</option>
+                    <option value="direcao">Direção</option>
+                    <option value="bateria">Bateria</option>
+                    <option value="injecao_eletronica">Injeção Eletronica</option>
+                    <option value="iluminacao">Iluminação</option>
+                    <option value="ar_condicionado">Ar Condicionado</option>
+                    <option value="arrefecimento">Arrefecimento</option>
+                    <option value="alimentacao">Alimentação</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-campo full">
+            <label for="valor">VALOR</label>
+            <input id="valor" name="form_valor" type="text" placeholder="Ex: 150">
+        </div>
+
+        <!-- BOTÃO -->
+        <div class="form-acoes">
+            <a class="btn-salvar bg-danger" href="{{url_for('listar_itens')}}" type="button">Voltar</a>
+            <button class="btn-salvar bg-info" type="submit">Salvar Item</button>
+        </div>
+
+    </div>
+</form>
 
 
 {% endblock content %}

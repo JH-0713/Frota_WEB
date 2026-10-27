@@ -17,27 +17,27 @@
 
         <div class="form-linha">
             <div class="form-campo">
-                <label>PLACA</label>
-                <input name="form_placa" type="text" placeholder="Ex: ABC1D23">
+                <label for="placa">PLACA</label>
+                <input id="placa" name="form_placa" type="text" placeholder="Ex: ABC1D23">
             </div>
 
         </div>
 
         <div class="form-linha">
             <div class="form-campo">
-                <label>ANO DE FABRICAÇÃO</label>
-                <input name="form_ano" type="text" placeholder="YYYY">
+                <label for="ano">ANO DE FABRICAÇÃO</label>
+                <input id="ano" name="form_ano" type="text" placeholder="YYYY">
             </div>
             <div class="form-campo">
-                <label>ODÔMETRO INICIAL (KM)</label>
-                <input name="form_km_atual" type="number" placeholder="0">
+                <label for="odometro">ODÔMETRO INICIAL (KM)</label>
+                <input id="odometro" name="form_km_atual" type="number" placeholder="0">
             </div>
 
         </div>
 
         <div class="form-campo full">
-            <label>MODELO DA VIATURA</label>
-            <select name="form_modelo">
+            <label for="modelo">MODELO DA VIATURA</label>
+            <select id="modelo" name="form_modelo">
                 <option value="None" selected>Selecione o modelo...</option>
                 {% for i in var_modelos %}
                 <option value="{{i.id_carro}}">{{i.marca}} - {{i.modelo}}</option>
@@ -46,7 +46,7 @@
         </div>
 
         <!-- BOTÃO -->
-        <div name="form-acoes" class="form-acoes">
+        <div class="form-acoes">
             <a class="btn-salvar bg-danger" href="{{url_for('listar_viatura')}}" type="button">Voltar</a>
             <button class="btn-salvar bg-info" type="submit">Salvar Viatura</button>
         </div>

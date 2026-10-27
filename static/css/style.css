@@ -684,10 +684,10 @@ header {
     font-family: 'Poppins', sans-serif;
 }
 
-.form-campo textarea {
-    resize: vertical;
-    min-height: 120px;
-}
+/*.form-campo textarea {*/
+/*    resize: vertical;*/
+/*    min-height: 120px;*/
+/*}*/
 
 .form-campo input:focus,
 .form-campo select:focus,
@@ -1300,8 +1300,12 @@ header {
     padding: 6px;
 }
 
-.modal-body label input {
+.modal-body label input, .modal-body label select {
     border-radius: 5px;
     border-color: #1E293B;
+    height: 30px;
+}
 
+.modal-body label select {
+    border: #1E293B 2px outset;
 }

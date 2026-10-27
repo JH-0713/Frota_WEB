@@ -1,72 +1,55 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-
-<div class="form-centralizado">
-    <div class="form-card">
-
-        <!-- ÍCONE -->
-        <div><img class="form-icone-topo" src="../static/img/profile.png" alt="profile police"></div>
-
-        <!-- TÍTULO -->
-        <h2 class="form-titulo">Cadastro de Policial</h2>
-        <p class="form-subtitulo">Insira os dados do oficial para registrá-lo no sistema de frota.</p>
-        <form action="{{url_for('cadastrar_policial')}}" method="post">
-
-            <!-- CAMPOS -->
-            <div class="form-linha">
-
-                <div class="form-campo">
-                    <label>Nome Completo</label>
-                    <div class="input-com-icone">
-                        <span class="input-icone"></span>
-                        <input name="form_nome" type="text" placeholder="Ex: João da Silva">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-linha">
-                <div class="form-campo">
-                    <label>E-mail</label>
-                    <div class="input-com-icone">
-                        <span class="input-icone"></span>
-                        <input name="form_email" type="text" placeholder="Ex: anonimo1@gmail.com">
-                    </div>
-                </div>
-
-                <div class="form-campo">
-                    <label>Senha</label>
-                    <div class="input-com-icone">
-                        <span class="input-icone"></span>
-                        <input name="form_senha" type="text" placeholder="Ex: S3nh@1">
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-linha">
-                <div class="form-campo">
-                    <label>Cargo / Patente</label>
-                    <select name="form_cargo">
-                        <option>Selecione a patente</option>
-                        <option>Soldado</option>
-                        <option>Cabo</option>
-                        <option>Sargento</option>
-                        <option>Tenente</option>
-                        <option>Capitão</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- BOTÕES -->
-            <div class="form-acoes">
-                <button type="reset" class="btn-limpar">Limpar Formulário</button>
-                <button type="submit" class="btn-salvar">Salvar Policial</button>
-            </div>
-        </form>
-
+<div class="topbar">
+    <div>
+        <h1>Cadastro de Responsavel</h1>
+        <p class="subtitulo">Insira os dados da novo responsavel para integrá-la à frota ativa.</p>
     </div>
 </div>
 
+<form action="{{url_for('cadastrar_responsavel')}}" method="post">
+    <div class="form-container">
 
-{% endblock %}
+        <div class="form-linha">
+            <div class="form-campo">
+                <label for="placa">NOME COMPLETO</label>
+                <input id="placa" name="form_placa" type="text" placeholder="Ex: Joaquin Gomes da Silva">
+            </div>
+
+        </div>
+        <div class="form-linha">
+            <div class="form-campo">
+                <label for="email">E-MAIL</label>
+                <input id="email" name="form_placa" type="text" placeholder="Ex: j0aqu1n@gmail.com">
+            </div>
+
+        </div>
+        <div class="form-linha">
+            <div class="form-campo">
+                <label for="senha">SENHA</label>
+                <input id="senha" name="form_placa" type="text" placeholder="Ex: J0@qu1nG0m3s">
+            </div>
+        </div>
+
+        <div class="form-campo full">
+            <label for="modelo">CARGO DO RESPONSAVEL</label>
+            <select id="modelo" name="form_modelo">
+                <option value="None" selected>Selecione o cargo...</option>
+                {% for i in var_modelos %}
+                <option value="{{i.id_carro}}">{{i.marca}} - {{i.modelo}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- BOTÃO -->
+        <div class="form-acoes">
+            <a class="btn-salvar bg-danger" href="{{url_for('listar_policial')}}" type="button">Voltar</a>
+            <button class="btn-salvar bg-info" type="submit">Salvar Policial</button>
+        </div>
+
+    </div>
+</form>
+
+
+{% endblock content %}
