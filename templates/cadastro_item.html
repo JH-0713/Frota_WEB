@@ -30,18 +30,9 @@
                 <label for="categoria">CATEGORIA</label>
                 <select name="form_categoria" id="categoria">
                     <option value="none">Selecione uma categoria</option>
-                    <option value="motor">Motor</option>
-                    <option value="cambio">Cambio</option>
-                    <option value="embreagem">Embreagem</option>
-                    <option value="freio">Freio</option>
-                    <option value="suspensao">Suspensão</option>
-                    <option value="direcao">Direção</option>
-                    <option value="bateria">Bateria</option>
-                    <option value="injecao_eletronica">Injeção Eletronica</option>
-                    <option value="iluminacao">Iluminação</option>
-                    <option value="ar_condicionado">Ar Condicionado</option>
-                    <option value="arrefecimento">Arrefecimento</option>
-                    <option value="alimentacao">Alimentação</option>
+                    {% for i in var_categoria %}
+                    <option value="{{i['id_categoria']}}">{{i['nome_categoria']}}</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>

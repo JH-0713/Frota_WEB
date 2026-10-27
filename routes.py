@@ -44,6 +44,12 @@ def get_cargo():
 
     return result_modelo.json()
 
+def get_categoria():
+    url = f"{endereco}/get_categorias"
+
+    result_categoria = requests.get(url)
+
+    return result_categoria.json()
 
 def post_policial(nome,email,senha,cargo_patente):
     url = f"{endereco}/post_policial"

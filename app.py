@@ -61,7 +61,8 @@ def listar_viatura():
 @app.route('/listar_itens', methods=['GET'])
 def listar_itens():
     var_itens = get_itens()
-    return render_template('listar_itens.html', var_itens=var_itens)
+    var_categoria = get_categoria()
+    return render_template('listar_itens.html', var_itens=var_itens, var_categoria=var_categoria)
 
 
 @app.route('/cadastrar_viatura', methods=['GET', 'POST'])
@@ -92,7 +93,6 @@ def cadastrar_viatura():
             return redirect(url_for('cadastrar_viatura'))
     var_modelos = get_modelo()
     return render_template('cadastro_viatura.html',var_modelos=var_modelos)
-
 
 @app.route('/cadastrar_policial', methods=['GET', 'POST'])
 def cadastrar_policial():
@@ -185,7 +185,8 @@ def cadastrar_item():
             flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
             return redirect(url_for('cadastrar_item'))
 
-    return render_template('cadastro_item.html')
+    var_categoria = get_categoria()
+    return render_template('cadastro_item.html', var_categoria=var_categoria)
 
 
 

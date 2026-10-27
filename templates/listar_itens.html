@@ -34,11 +34,11 @@
         <tbody>
         {% for item in var_itens %}
         <tr>
-            <td><strong>{{ item['id_item'] }}</strong></td>
-            <td>{{ item.nome_item }}</td>
-            <td>{{ item.descricao }}</td>
-            <td>{{ item.categoria_falha }}</td>
-            <td>{{ item.valor_unitario }}</td>
+            <td><strong>{{ item['item']['id_item'] }}</strong></td>
+            <td>{{ item['item']['nome_item'] }}</td>
+            <td>{{ item['item']['descricao'] }}</td>
+            <td>{{ item['categoria']['nome_categoria'] }}</td>
+            <td>{{ item['item']['valor_unitario'] }}</td>
             <td class="acoes">✏️ 🗑️</td>
         </tr>
         {% endfor %}
