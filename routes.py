@@ -113,6 +113,40 @@ def post_item(nome_item,descricao,categoria_falha,valor_unitario):
 
     return result_item.status_code
 
+def post_cargo(nome_cargo,categoria):
+    url = f"{endereco}/post_cargo"
+
+    dados = {
+        "nome_cargo": nome_cargo,
+        "categoria": categoria
+    }
+
+    result_cargo = requests.post(url=url, json=dados)
+
+    return result_cargo.status_code
+
+def post_modelo(modelo,marca):
+    url = f"{endereco}/post_modelo"
+
+    dados = {
+        "modelo": modelo,
+        "marca": marca
+    }
+
+    result_mode = requests.post(url=url, json=dados)
+
+    return result_mode.status_code
+
+def post_categoria(nome_categ):
+    url = f"{endereco}/post_categoria"
+
+    dados = {
+        "nome_categ": nome_categ
+    }
+
+    result_categ = requests.post(url=url, json=dados)
+
+    return result_categ.status_code
 
 
 

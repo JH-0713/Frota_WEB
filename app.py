@@ -208,6 +208,30 @@ def cadastrar_item():
         categ['nome_categoria'] = categ1
     return render_template('cadastro_item.html', var_categoria=var_categoria)
 
+@app.route('/cadastrar_cargo', methods=['POST'])
+def cadastrar_cargo():
+    if request.method == "POST":
+        nome = request.form.get('form_nome')
+        categoria = request.form.get('form_categoria')
+
+        if not nome or not categoria:
+            flash("Preencha todos os campos", "danger")
+            return redirect(request.referrer)
+
+        try:
+            pc1 = post_cargo(nome_cargo=nome, categoria=categoria)
+
+            if pc1 == 201:
+                flash("Cargo cadastrado com sucesso!", "success")
+                return redirect(request.referrer)
+            else:
+                flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', "danger")
+                return redirect(request.referrer)
+        except Exception as e:
+            print(f'Error: {e}')
+            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
+            return redirect(request.referrer)
+
 
 
 @app.route('/editar_viatura/<var_id>', methods=['POST'])
@@ -398,6 +422,7 @@ def pesquisa_itens():
         else:
             flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
             return redirect(url_for('listar_itens'))
+
 
 @app.route('/pesquisa_policiais', methods=['POST'])
 def pesquisa_policiais():
