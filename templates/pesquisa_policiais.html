@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- TOPBAR -->
+<div class="topbar">
+    <div>
+        <h1>Listagem de Policiais</h1>
+        <p class="subtitulo">Gerencie o efetivo e status de turno da unidade.</p>
+    </div>
+    <div class="topbar-acoes">
+        <form action="{{url_for('pesquisa_policiais')}}" method="post">
+            <label>
+                <input type="search" name="form_pesquisa" placeholder="Buscar por numero da matricula"
+                       class="topbar-busca">
+            </label>
+
+        </form>
+        <a href="{{url_for('cadastrar_policial')}}" class="btn-incluir">Cadastrar Policial</a>
+    </div>
+</div>
+
+<!-- TABELA -->
+<div class="tabela-container">
+
+    <table class="tabela-viaturas">
+        <thead>
+        <tr>
+            <th>Matrícula</th>
+            <th>Nome Completo</th>
+            <th>Email</th>
+            <th>Cargo/Patente</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for i in var_policiais %}
+        <tr>
+            <td><strong>{{ i['policial']['matricula'] }}</strong></td>
+            <td>{{ i['policial']['nome'] }}</td>
+            <td>{{ i['policial']['email'] }}</td>
+            <td>{{ i['cargo']['nome_cargo'] }}</td>
+            <td class="acoes">
+                <a data-bs-toggle="modal" data-bs-target="#editar_policial{{i['policial']['id_policial']}}">✏️</a>
+                <a data-bs-toggle="modal" data-bs-target="#delete_policial{{i['policial']['id_policial']}}">🗑️</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    {% for i in var_policiais %}
+    <div class="modal fade" id="editar_policial{{i['policial']['id_policial']}}" tabindex="-1"
+         aria-labelledby="mostrar_editar_policial{{i['policial']['id_policial']}}"
+         aria-hidden="true">
+        <form id="form-editar" action="{{ url_for('editar_policial', var_id = i['policial']['id_policial']) }}"
+              method="post">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="mostrar_editar_policial{{i['policial']['id_policial']}}"><i
+                                class="bi bi-pencil-square text-primary fs-6"></i> Editar Policial:
+                            {{i['policial']['nome']}}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label>
+                            Nome:
+                            <input type="text" name="form_nome" value="{{i['policial']['nome']}}">
+                        </label>
+                        <label>
+                            E-mail:
+                            <input type="email" name="form_email" value="{{i['policial']['email']}}">
+                        </label>
+
+                        <label>
+                            Cargo:
+                            <select name="form_cargo">
+                                {% for i2 in var_cargos %}
+                                {% if i2.id_cargo == i['policial']['cargo_patente'] %}
+                                <option value="{{i2['id_cargo']}}" selected>{{i2.nome_cargo}}</option>
+                                {% else %}
+                                <option value="{{i2['id_cargo']}}">{{i2.nome_cargo}}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </label>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">Editar
+                        </button>
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Fechar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="delete_policial{{i['policial']['id_policial']}}" tabindex="-1"
+         aria-labelledby="mostrar_delete_policial{{i['policial']['id_policial']}}"
+         aria-hidden="true">
+        <form id="form-deletar" action="{{ url_for('deletar_policial', var_id = i['policial']['id_policial']) }}"
+              method="post">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="mostrar_delete_policial{{i['policial']['id_policial']}}"><i
+                                class="bi bi-trash-fill text-primary fs-6"></i> Deseja deletar Policial:
+                            {{i['policial']['prefixo']}} - {{i['policial']['nome']}}?</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Deletar
+                        </button>
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Voltar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

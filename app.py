@@ -9,7 +9,8 @@ from functools import wraps
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "VaiCagaRicardo"
-
+app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 @app.route('/')
 def index():
@@ -26,43 +27,51 @@ def frota():
 
 @app.route('/listar_policial', methods=['GET','POST'])
 def listar_policial():
-    if request.method == "POST":
-        matricula = request.form.get('form_pesquisa')
-        if not matricula:
-            flash("Valores não atribuidos", "danger")
-            return redirect(url_for('listar_policial'))
 
-        var_policial = pesquisar_polical(matricula)
-
-        if var_policial[1] == 200:
-            flash(f"Resultados da pesquisa: {matricula}", "success")
-            return render_template("listar_policial.html", var_policial=var_policial[0])
-        else:
-            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', "danger")
-            return redirect(url_for('listar_policial'))
     var_policial = get_policial()
-    return render_template('listar_policial.html', var_policial=var_policial)
+    var_cargos = get_cargo()
 
+    return render_template('listar_policial.html', var_policial=var_policial,var_cargos=var_cargos)
 
 @app.route('/listar_responsavel', methods=['GET'])
 def listar_responsavel():
     var_responsavel = get_responsavel()
     var_cargos = get_cargo()
-    return render_template('listar_responsavel.html', var_responsavel=var_responsavel,var_cargos=var_cargos)
 
+    for i in var_cargos:
+        nome_c = i['nome_cargo'].replace("-", " ")
+        nome_c1 = nome_c.replace("_", " ")
+        i['nome_cargo'] = nome_c1
+
+    return render_template('listar_responsavel.html', var_responsavel=var_responsavel,var_cargos=var_cargos)
 
 @app.route('/listar_viatura', methods=['GET'])
 def listar_viatura():
     var_modelos = get_modelo()
     var_viatura = get_viatura()
-    return render_template('listar_viatura.html', var_viatura=var_viatura, var_modelos=var_modelos)
+    for i in var_viatura:
+        status = i['viatura']['status_atual'].capitalize()
+        i['viatura']['status_atual'] = status
 
+
+    return render_template('listar_viatura.html', var_viatura=var_viatura, var_modelos=var_modelos)
 
 @app.route('/listar_itens', methods=['GET'])
 def listar_itens():
     var_itens = get_itens()
     var_categoria = get_categoria()
+
+    for item in var_itens:
+        categ_item = item['categoria']['nome_categoria'].replace("_", " ")
+        categ_item1 = categ_item.capitalize()
+        item['categoria']['nome_categoria'] = categ_item1
+
+    for categ in var_categoria:
+        categ1 = categ['nome_categoria'].replace("_", " ").capitalize()
+        categ['nome_categoria'] = categ1
+
     return render_template('listar_itens.html', var_itens=var_itens, var_categoria=var_categoria)
+
 
 
 @app.route('/cadastrar_viatura', methods=['GET', 'POST'])
@@ -112,29 +121,32 @@ def cadastrar_policial():
 
             if pp1 == 201:
                 flash("Viatura cadastrada com sucesso!", "success")
-                return redirect(url_for('listar_viatura'))
+                return redirect(url_for('listar_policial'))
             else:
                 flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', "danger")
-                return redirect(url_for('cadastrar_viatura'))
+                return redirect(url_for('cadastrar_policial'))
 
         except Exception as e:
             print(f'Error: {e}')
             flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
-            return redirect(url_for('cadastrar_responsavel'))
+            return redirect(url_for('cadastrar_policial'))
 
-    return render_template('cadastro_policial.html')
+    var_cargos = get_cargo()
+    for i in var_cargos:
+        nome_c = i['nome_cargo'].replace("-", " ")
+        nome_c1 = nome_c.replace("_", " ")
+        i['nome_cargo'] = nome_c1
+    return render_template('cadastro_policial.html',var_cargos=var_cargos)
 
 @app.route('/cadastrar_responsavel', methods=['GET', 'POST'])
 def cadastrar_responsavel():
     if request.method == "POST":
         nome = request.form.get('form_nome')
         email = request.form.get('form_email')
-        cargo = request.form.get('form_cargo_funcao')
+        cargo = request.form.get('form_cargo')
         senha = request.form.get('form_senha')
 
-        print(nome, email, cargo, senha)
-
-        if not nome or not email or not cargo or not senha:
+        if not nome or not email or not cargo or not senha or cargo == "None":
             print("error: valores inválidos")
             flash("Digite em todos os campos", "danger")
             return redirect(url_for('cadastrar_responsavel'))
@@ -144,16 +156,20 @@ def cadastrar_responsavel():
 
             if pr1 == 201:
                 flash("Viatura cadastrada com sucesso!", "success")
-                return redirect(url_for('listar_viatura'))
+                return redirect(url_for('listar_responsavel'))
             else:
                 flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', "danger")
-                return redirect(url_for('cadastrar_viatura'))
+                return redirect(url_for('cadastrar_responsavel'))
 
         except Exception as e:
             print(f'Error: {e}')
             flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
             return redirect(url_for('cadastrar_responsavel'))
     var_cargos = get_cargo()
+    for i in var_cargos:
+        nome_c = i['nome_cargo'].replace("-", " ")
+        nome_c1 = nome_c.replace("_", " ")
+        i['nome_cargo'] = nome_c1
 
     return render_template('cadastro_responsavel.html',var_cargos=var_cargos)
 
@@ -175,10 +191,10 @@ def cadastrar_item():
 
             if pi1 == 201:
                 flash("Viatura cadastrada com sucesso!", "success")
-                return redirect(url_for('listar_viatura'))
+                return redirect(url_for('listar_item'))
             else:
                 flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', "danger")
-                return redirect(url_for('cadastrar_viatura'))
+                return redirect(url_for('cadastrar_item'))
 
         except Exception as e:
             print(f'Error: {e}')
@@ -186,6 +202,10 @@ def cadastrar_item():
             return redirect(url_for('cadastrar_item'))
 
     var_categoria = get_categoria()
+
+    for categ in var_categoria:
+        categ1 = categ['nome_categoria'].replace("_", " ").capitalize()
+        categ['nome_categoria'] = categ1
     return render_template('cadastro_item.html', var_categoria=var_categoria)
 
 
@@ -222,14 +242,13 @@ def editar_policial(var_id):
     if request.method == "POST":
         nome = request.form.get('form_nome')
         email = request.form.get('form_email')
-        senha = request.form.get('form_senha')
         cargo = request.form.get('form_cargo')
 
-        if not nome or not email or not senha or not cargo:
+        if not nome or not email or not cargo:
             flash("Preencha todos os campos", "danger")
             return redirect(url_for('listar_policial'))
         try:
-            put_p1 = put_policial(nome=nome, email=email, senha=senha, cargo_patente=cargo,
+            put_p1 = put_policial(nome=nome, email=email, cargo_patente=cargo,
                                  var_id=var_id)
 
             if put_p1 == 200:
@@ -249,14 +268,13 @@ def editar_responsavel(var_id):
     if request.method == "POST":
         nome = request.form.get('form_nome')
         email = request.form.get('form_email')
-        senha = request.form.get('form_senha')
         cargo = request.form.get('form_cargo')
 
-        if not nome or not email or not senha or not cargo:
+        if not nome or not email or not cargo:
             flash("Preencha todos os campos", "danger")
             return redirect(url_for('listar_responsavel'))
         try:
-            put_r1 = put_responsavel(nome=nome, email=email, senha=senha, cargo_funcao=cargo,
+            put_r1 = put_responsavel(nome=nome, email=email, cargo_funcao=cargo,
                                  var_id=var_id)
 
             if put_r1 == 200:
@@ -311,6 +329,29 @@ def deletar_viatura(var_id):
             return redirect(url_for('listar_viatura'))
 
 
+@app.route('/deletar_responsavel/<var_id>', methods=['POST'])
+def deletar_responsavel(var_id):
+    if request.method == "POST":
+        delete_r = delete_responsavel(var_id)
+        if delete_r == 200:
+            flash("Responsavel deletado com sucesso", "success")
+            return redirect(url_for('listar_responsavel'))
+        else:
+            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
+            return redirect(url_for('listar_responsavel'))
+
+@app.route('/deletar_policial/<var_id>', methods=['POST'])
+def deletar_policial(var_id):
+    if request.method == "POST":
+        delete_r = delete_policial(var_id)
+        if delete_r == 200:
+            flash("Policial deletado com sucesso", "success")
+            return redirect(url_for('listar_policial'))
+        else:
+            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
+            return redirect(url_for('listar_policial'))
+
+
 
 @app.route('/pesquisa_viatura', methods=['POST'])
 def pesquisa_viatura():
@@ -358,6 +399,55 @@ def pesquisa_itens():
             flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
             return redirect(url_for('listar_itens'))
 
+@app.route('/pesquisa_policiais', methods=['POST'])
+def pesquisa_policiais():
+    if request.method == "POST":
+        nome = request.form.get('form_pesquisa')
+        if not nome:
+            flash("Preencha todos os campos", "danger")
+            return redirect(url_for('listar_policial'))
+
+        var_pesquisa_p = pesquisar_polical(nome)
+        var_cargos = get_cargo()
+
+        print('asd',var_pesquisa_p[0])
+
+        if var_pesquisa_p[1] == 200:
+            flash(f'Resultado da pesquisa: {nome}', 'success')
+
+            return render_template('pesquisa_policiais.html',var_policiais=var_pesquisa_p[0], var_cargos=var_cargos)
+        elif var_pesquisa_p[1] == 400:
+            flash(f'Item não encontrado', 'danger')
+            return redirect(url_for('listar_policial'))
+        else:
+            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
+            return redirect(url_for('listar_policial'))
+
+@app.route('/pesquisa_responsavel', methods=['POST'])
+def pesquisa_responsavel():
+    if request.method == "POST":
+        nome = request.form.get('form_pesquisa')
+        if not nome:
+            flash("Preencha todos os campos", "danger")
+            return redirect(url_for('listar_responsavel'))
+
+        var_pesquisa_r = pesquisar_responsavel(nome)
+        var_cargos = get_cargo()
+
+        print('asd',var_pesquisa_r[0])
+
+        if var_pesquisa_r[1] == 200:
+            flash(f'Resultado da pesquisa: {nome}', 'success')
+            return render_template('pesquisa_responsavel.html',var_responsavel=var_pesquisa_r[0], var_cargos=var_cargos)
+        elif var_pesquisa_r[1] == 400:
+            flash(f'Responsavel não encontrado', 'danger')
+            return redirect(url_for('listar_responsavel'))
+        else:
+            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
+            return redirect(url_for('listar_responsavel'))
+
+
+
 @app.route('/historicoManutencao')
 def historicoManutencao():
     return render_template('historicoManutencao.html')
@@ -369,4 +459,4 @@ def historicoVeiculo():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5008, host='0.0.0.0')
+    app.run(debug=True, port=5005, host='0.0.0.0')

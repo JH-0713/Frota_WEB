@@ -13,31 +13,31 @@
 
         <div class="form-linha">
             <div class="form-campo">
-                <label for="placa">NOME COMPLETO</label>
-                <input id="placa" name="form_placa" type="text" placeholder="Ex: Joaquin Gomes da Silva">
+                <label for="nome">NOME COMPLETO</label>
+                <input id="nome" name="form_nome" type="text" placeholder="Ex: Joaquin Gomes da Silva">
             </div>
 
         </div>
         <div class="form-linha">
             <div class="form-campo">
                 <label for="email">E-MAIL</label>
-                <input id="email" name="form_placa" type="text" placeholder="Ex: j0aqu1n@gmail.com">
+                <input id="email" name="form_email" type="email" placeholder="Ex: j0aqu1n@gmail.com">
             </div>
 
         </div>
         <div class="form-linha">
             <div class="form-campo">
                 <label for="senha">SENHA</label>
-                <input id="senha" name="form_placa" type="text" placeholder="Ex: J0@qu1nG0m3s">
+                <input id="senha" name="form_senha" type="password" placeholder="Ex: J0@qu1nG0m3s">
             </div>
         </div>
 
         <div class="form-campo full">
-            <label for="modelo">CARGO DO RESPONSAVEL</label>
-            <select id="modelo" name="form_modelo">
+            <label for="form_cargo">CARGO DO RESPONSAVEL</label>
+            <select id="form_cargo" name="form_cargo">
                 <option value="None" selected>Selecione o cargo...</option>
                 {% for i in var_cargos %}
-                <option value="{{i.id_cargo}}">{{i.nome_cargo}} - {{i.categoria}}</option>
+                <option value="{{i.id_cargo}}">{{i.nome_cargo}}</option>
                 {% endfor %}
             </select>
         </div>

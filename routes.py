@@ -1,6 +1,6 @@
 import requests
 
-endereco = "http://10.135.232.10:5002"
+endereco = "http://10.135.232.31:5002"
 
 def get_policial():
     url = f"{endereco}/get_policiais"
@@ -50,6 +50,8 @@ def get_categoria():
     result_categoria = requests.get(url)
 
     return result_categoria.json()
+
+
 
 def post_policial(nome,email,senha,cargo_patente):
     url = f"{endereco}/post_policial"
@@ -112,11 +114,13 @@ def post_item(nome_item,descricao,categoria_falha,valor_unitario):
     return result_item.status_code
 
 
-def pesquisar_polical(matricula):
+
+
+def pesquisar_polical(nome):
     url = f"{endereco}/pesquisar_policial"
 
     dados = {
-        "matricula": matricula
+        "nome": nome
     }
 
     result_policial = requests.post(url=url, json=dados)
@@ -145,23 +149,30 @@ def pesquisar_itens(nome):
 
     return result_policial.json(), result_policial.status_code
 
+def pesquisar_responsavel(nome):
+    url = f"{endereco}/pesquisar_responsavel"
+
+    dados = {
+        "nome": nome
+    }
+
+    result_policial = requests.post(url=url, json=dados)
+
+    return result_policial.json(), result_policial.status_code
 
 
-
-
-def put_policial(nome, email, senha,cargo_patente,var_id):
+def put_policial(nome, email,cargo_patente,var_id):
     url = f"{endereco}/put_policial/{var_id}"
 
     dados = {
         "nome": nome,
         "email": email,
-        "senha": senha,
         "cargo_patente": cargo_patente,
     }
 
     result_policial = requests.put(url=url, json=dados)
 
-    return result_policial.json(), result_policial.status_code
+    return result_policial.status_code
 
 def put_viatura(placa, ano, km_atual,modelo,var_id):
     url = f"{endereco}/put_viatura/{var_id}"
@@ -177,13 +188,12 @@ def put_viatura(placa, ano, km_atual,modelo,var_id):
 
     return result_viatura.status_code
 
-def put_responsavel(nome,email,senha,cargo_funcao,var_id):
+def put_responsavel(nome,email,cargo_funcao,var_id):
     url = f"{endereco}/put_responsavel/{var_id}"
 
     dados = {
         "nome":nome,
         "email":email,
-        "senha":senha,
         "cargo_funcao":cargo_funcao
     }
 

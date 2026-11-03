@@ -3,48 +3,48 @@
 {% block content %}
 <div class="topbar">
     <div>
-        <h1>Cadastro de Responsavel</h1>
-        <p class="subtitulo">Insira os dados da novo responsavel para integrá-la à frota ativa.</p>
+        <h1>Cadastro de Policial</h1>
+        <p class="subtitulo">Insira os dados da novo policial para integrá-la à frota ativa.</p>
     </div>
 </div>
 
-<form action="{{url_for('cadastrar_responsavel')}}" method="post">
+<form action="{{url_for('cadastrar_policial')}}" method="post">
     <div class="form-container">
 
         <div class="form-linha">
             <div class="form-campo">
-                <label for="placa">NOME COMPLETO</label>
-                <input id="placa" name="form_placa" type="text" placeholder="Ex: Joaquin Gomes da Silva">
+                <label for="nome">NOME COMPLETO</label>
+                <input id="nome" name="form_nome" type="text" placeholder="Ex: Joaquin Gomes da Silva">
             </div>
 
         </div>
         <div class="form-linha">
             <div class="form-campo">
                 <label for="email">E-MAIL</label>
-                <input id="email" name="form_placa" type="text" placeholder="Ex: j0aqu1n@gmail.com">
+                <input id="email" name="form_email" type="email" placeholder="Ex: j0aqu1n@gmail.com">
             </div>
 
         </div>
         <div class="form-linha">
             <div class="form-campo">
                 <label for="senha">SENHA</label>
-                <input id="senha" name="form_placa" type="text" placeholder="Ex: J0@qu1nG0m3s">
+                <input id="senha" name="form_senha" type="password" placeholder="Ex: J0@qu1nG0m3s">
             </div>
         </div>
 
         <div class="form-campo full">
-            <label for="modelo">CARGO DO RESPONSAVEL</label>
-            <select id="modelo" name="form_modelo">
+            <label for="form_cargo">CARGO DO POLICIAL</label>
+            <select id="form_cargo" name="form_cargo">
                 <option value="None" selected>Selecione o cargo...</option>
-                {% for i in var_modelos %}
-                <option value="{{i.id_carro}}">{{i.marca}} - {{i.modelo}}</option>
+                {% for i in var_cargos %}
+                <option value="{{i.id_cargo}}">{{i.nome_cargo}}</option>
                 {% endfor %}
             </select>
         </div>
 
         <!-- BOTÃO -->
         <div class="form-acoes">
-            <a class="btn-salvar bg-danger" href="{{url_for('listar_policial')}}" type="button">Voltar</a>
+            <a class="btn-salvar bg-danger" href="{{url_for('listar_responsavel')}}" type="button">Voltar</a>
             <button class="btn-salvar bg-info" type="submit">Salvar Policial</button>
         </div>
 
