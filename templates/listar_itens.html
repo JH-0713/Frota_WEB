@@ -75,11 +75,11 @@
                         <label>
                             Categoria:
                             <select name="form-modelo">
-                                {% for i2 in var_categ %}
+                                {% for i2 in var_categoria %}
                                 {% if i2.id_categoria == i['categoria']['nome_categoria'] %}
-                                <option value="{{i2['id_categoria']}}" selected>{{i2.nome_categoria}}</option>
+                                <option value="{{i2['id_categoria']}}" selected>{{i2['nome_categoria']}}</option>
                                 {% else %}
-                                <option value="{{i2['id_categoria']}}">{{i2.nome_categoria}}</option>
+                                <option value="{{i2['id_categoria']}}">{{i2['nome_categoria']}}</option>
                                 {% endif %}
                                 {% endfor %}
                             </select>

@@ -227,7 +227,7 @@ def cadastrar_item():
 
         except Exception as e:
             print(f'Error: {e}')
-            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
+            flash(f'Falha no Sistema Interno,{e} Tente Novamente mais Tarde', 'warning')
             return redirect(url_for('cadastrar_item'))
 
     var_categoria = get_categoria()

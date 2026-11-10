@@ -70,6 +70,8 @@ def get_info_viatura(var_id):
 
     return result_viatura.json()
 
+
+
 def post_policial(nome,email,senha,cargo_patente):
     url = f"{endereco}/post_policial"
 
@@ -101,7 +103,7 @@ def post_viatura(placa, ano, km_atual,modelo):
 
 def post_item(nome_item,descricao,categoria_falha,valor_unitario):
 
-    url = f"{endereco}/post_itens_manutencao"
+    url = f"{endereco}/post_item"
 
     dados = {
         "nome_item":nome_item,
