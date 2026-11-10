@@ -1,6 +1,6 @@
 import requests
 
-endereco = "http://10.135.232.15:5002"
+endereco = "http://10.135.232.15:5010"
 
 def get_officer(var_id):
     url = f"{endereco}/log_policial/{var_id}"
@@ -63,7 +63,12 @@ def get_categoria():
 
     return result_categoria.json()
 
+def get_info_viatura(var_id):
+    url = f"{endereco}/info_viatura/{var_id}"
 
+    result_viatura = requests.get(url)
+
+    return result_viatura.json()
 
 def post_policial(nome,email,senha,cargo_patente):
     url = f"{endereco}/post_policial"

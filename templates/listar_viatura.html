@@ -42,6 +42,7 @@
             <td>{{ i['viatura']['km_atual'] }} km</td>
             <td>{{ i['viatura']['status_atual'] }}</td>
             <td class="acoes">
+                <a href="{{url_for('listar_info_viatura', var_id = i['viatura']['id_viatura']) }}">📄</a>
                 <a data-bs-toggle="modal" data-bs-target="#editar_viatura{{i['viatura']['id_viatura']}}">✏️</a>
                 <a data-bs-toggle="modal" data-bs-target="#delete_viatura{{i['viatura']['id_viatura']}}">🗑️</a>
             </td>

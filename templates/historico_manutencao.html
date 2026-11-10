@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="dashboard-content">
+    
+    <!-- TOPBAR INTERNO -->
+    <div class="topbar">
+        <div>
+            <h1>Registro de Ordem de Serviço</h1>
+            <p class="subtitulo">Preencha os dados abaixo para registrar uma nova manutenção na frota.</p>
+        </div>
+    </div>
+
+    <!-- FORMULÁRIO -->
+    <div class="form-container">
+        
+        <!-- LINHA 1: Busca + Tipo -->
+        <div class="form-linha">
+            <div class="form-campo">
+                <label>Busca de Viatura</label>
+                <div class="input-com-icone">
+                    <span class="input-icone"></span>
+                    <input type="text" placeholder="Digite Placa ou Prefixo">
+                </div>
+                <small class="input-ajuda">Ex: ABC-1234 ou VTR-01</small>
+            </div>
+            <div class="form-campo">
+                <label>Tipo de Manutenção</label>
+                <select>
+                    <option>Selecione o tipo</option>
+                    <option>Preventiva</option>
+                    <option>Corretiva</option>
+                    <option>Preditiva</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- LINHA 2: Categoria + Custo -->
+        <div class="form-linha">
+            <div class="form-campo">
+                <label>Categoria da Falha</label>
+                <select>
+                    <option>Selecione a categoria</option>
+                    <option>Elétrica</option>
+                    <option>Motor</option>
+                    <option>Suspensão</option>
+                    <option>Freios</option>
+                    <option>Pneus</option>
+                </select>
+            </div>
+            <div class="form-campo">
+                <label>Custo Total Estimado</label>
+                <input type="text" placeholder="R$ 0,00">
+            </div>
+        </div>
+
+        <!-- LINHA 3: Descrição -->
+        <div class="form-linha">
+            <div class="form-campo full">
+                <label>Peças Trocadas / Descrição do Serviço</label>
+                <textarea rows="5" placeholder="Descreva brevemente as peças substituídas ou o serviço realizado..."></textarea>
+            </div>
+        </div>
+
+        <!-- BOTÃO -->
+        <div class="form-acoes">
+            <button class="btn-salvar">Finalizar Ordem de Serviço</button>
+        </div>
+
+    </div>
+
+</main>
+
+{% endblock content %}

@@ -122,7 +122,21 @@ def listar_itens():
 
     return render_template('listar_itens.html', var_itens=var_itens, var_categoria=var_categoria)
 
+@app.route('/listar_info_viatura/<var_id>', methods=['GET'])
+def listar_info_viatura(var_id):
+    var_info_v = get_info_viatura(var_id)
 
+    return render_template('info_viatura.html', var_info=var_info_v)
+
+
+
+@app.route('/historico_manutencao', methods=['GET'])
+def historico_manutencao():
+    return render_template('historico_manutencao.html')
+
+@app.route('/historico_veiculo', methods=['GET'])
+def historico_veiculo():
+    return render_template('historico_veiculo.html')
 
 @app.route('/cadastrar_viatura', methods=['GET', 'POST'])
 def cadastrar_viatura():
@@ -425,7 +439,6 @@ def pesquisa_itens():
             flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
             return redirect(url_for('listar_itens'))
 
-
 @app.route('/pesquisa_policiais', methods=['POST'])
 def pesquisa_policiais():
     if request.method == "POST":
@@ -451,6 +464,8 @@ def pesquisa_policiais():
             return redirect(url_for('listar_policial'))
 
 
+
+
 @app.route('/historicoManutencao')
 def historicoManutencao():
     return render_template('historicoManutencao.html')
@@ -462,4 +477,4 @@ def historicoVeiculo():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5005, host='0.0.0.0')
+    app.run(debug=True, port=5004, host='0.0.0.0')

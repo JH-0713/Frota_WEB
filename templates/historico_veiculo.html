@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="dashboard-content">
+    
+    <!-- TOPBAR INTERNO -->
+    <div class="topbar">
+        <div>
+            <h1>Controle de Viaturas</h1>
+            <p class="subtitulo">Controle patrimonial e status operacional da frota.</p>
+        </div>
+        <div class="topbar-acoes">
+            <input type="text" placeholder="🔍 Buscar prefixo ou placa..." class="topbar-busca">
+            <button class="btn-incluir">+ Incluir Viatura</button>
+        </div>
+    </div>
+
+    <!-- TABELA -->
+    <div class="tabela-container">
+        <table class="tabela-viaturas">
+            <thead>
+                <tr>
+                    <th>Prefixo</th>
+                    <th>Placa</th>
+                    <th>Modelo</th>
+                    <th>Ano</th>
+                    <th>Odômetro</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>V-4052</strong></td>
+                    <td>QZR-1234</td>
+                    <td>Renault Duster</td>
+                    <td>2022</td>
+                    <td>33.210 km</td>
+                    <td><span class="status operacional">● Operacional</span></td>
+                    <td class="acoes">✏️ 🗑️</td>
+                </tr>
+                <tr>
+                    <td><strong>V-4088</strong></td>
+                    <td>RXL-5678</td>
+                    <td>Chevrolet Trailblazer</td>
+                    <td>2023</td>
+                    <td>12.050 km</td>
+                    <td><span class="status revisao">● Revisão Pend.</span></td>
+                    <td class="acoes">✏️ 🗑️</td>
+                </tr>
+                <tr>
+                    <td><strong>V-3011</strong></td>
+                    <td>MXT-5522</td>
+                    <td>Mitsubishi L200</td>
+                    <td>2019</td>
+                    <td>109.480 km</td>
+                    <td><span class="status oficina">● Oficina</span></td>
+                    <td class="acoes">✏️ 🗑️</td>
+                </tr>
+                <tr>
+                    <td><strong>V-4102</strong></td>
+                    <td>ABC-1121</td>
+                    <td>Renault Duster</td>
+                    <td>2022</td>
+                    <td>51.100 km</td>
+                    <td><span class="status operacional">● Operacional</span></td>
+                    <td class="acoes">✏️ 🗑️</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- RODAPÉ DA TABELA -->
+        <div class="tabela-rodape">
+            <span>Mostrando 4 de 124 viaturas</span>
+            <div class="paginacao">
+                <button>‹</button>
+                <button>›</button>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+{% endblock content %}
