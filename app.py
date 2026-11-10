@@ -1,10 +1,10 @@
 from datetime import timedelta, datetime
 from flask import Flask, jsonify, request, render_template, redirect, url_for, flash
+from flask_login import LoginManager, UserMixin, login_user, logout_user
 from sqlalchemy import select
 from routes import *
 import os
 # gera token
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity, get_jwt
 from functools import wraps
 
 app = Flask(__name__)
@@ -12,18 +12,80 @@ app.config['SECRET_KEY'] = "VaiCagaRicardo"
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
+login_manager = LoginManager()
+login_manager.login_view = 'login'
+
+login_manager.init_app(app)
+
+class Policial(UserMixin):
+    def __init__(self,id_policial, nome,):
+        self.id_policial = id_policial
+        self.nome = nome
+
+    def get_id(self):
+        return str(self.id_policial)
+
+@login_manager.user_loader
+def load_user(user_id):
+    try:
+        lgp1 = get_officer(var_id = user_id)
+        if lgp1[1] == 200:
+            dados = lgp1[0]
+            user_p = Policial(id_policial=dados['id_policial'], nome=dados['nome'])
+
+            return user_p
+
+    except Exception as e:
+        print(f'Error: {e}')
+        return redirect(url_for('login'))
+
 @app.route('/')
 def index():
     return render_template('index.html')
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    return render_template('login.html')
 
 @app.route('/frota', methods=['GET'])
 def frota():
     return render_template('frota.html')
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        email = request.form.get('email')
+        senha = request.form.get('senha')
+        print('form',email, senha)
+        if not email or not senha:
+            flash("Preencha todos os campos", "danger")
+            return redirect(url_for('login'))
+
+        try:
+            plg1 = login_usuario(email, senha)
+            print(f'log_user: {plg1[0]}')
+
+            if plg1[1] == 201:
+                dados_p = plg1[0]['user']
+                print(f"user: {dados_p}")
+
+                user_l = Policial(id_policial=dados_p['id_policial'], nome=dados_p['nome'])
+
+                login_user(user_l)
+
+                flash('Login realizado com sucesso!', 'success')
+                return redirect(url_for('index'))
+            else:
+                flash('Usuário ou senha incorretos','danger')
+                return redirect(url_for('login'))
+        except Exception as e:
+            print(f'Error: {e}')
+            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
+            return redirect(url_for('login'))
+
+    var_cargos = get_cargo()
+    return render_template('login.html', var_cargos=var_cargos)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 @app.route('/listar_policial', methods=['GET','POST'])
 def listar_policial():
@@ -32,18 +94,6 @@ def listar_policial():
     var_cargos = get_cargo()
 
     return render_template('listar_policial.html', var_policial=var_policial,var_cargos=var_cargos)
-
-@app.route('/listar_responsavel', methods=['GET'])
-def listar_responsavel():
-    var_responsavel = get_responsavel()
-    var_cargos = get_cargo()
-
-    for i in var_cargos:
-        nome_c = i['nome_cargo'].replace("-", " ")
-        nome_c1 = nome_c.replace("_", " ")
-        i['nome_cargo'] = nome_c1
-
-    return render_template('listar_responsavel.html', var_responsavel=var_responsavel,var_cargos=var_cargos)
 
 @app.route('/listar_viatura', methods=['GET'])
 def listar_viatura():
@@ -138,41 +188,6 @@ def cadastrar_policial():
         i['nome_cargo'] = nome_c1
     return render_template('cadastro_policial.html',var_cargos=var_cargos)
 
-@app.route('/cadastrar_responsavel', methods=['GET', 'POST'])
-def cadastrar_responsavel():
-    if request.method == "POST":
-        nome = request.form.get('form_nome')
-        email = request.form.get('form_email')
-        cargo = request.form.get('form_cargo')
-        senha = request.form.get('form_senha')
-
-        if not nome or not email or not cargo or not senha or cargo == "None":
-            print("error: valores inválidos")
-            flash("Digite em todos os campos", "danger")
-            return redirect(url_for('cadastrar_responsavel'))
-
-        try:
-            pr1 = post_responsavel(nome=nome, cargo_funcao=cargo, email=email, senha=senha)
-
-            if pr1 == 201:
-                flash("Viatura cadastrada com sucesso!", "success")
-                return redirect(url_for('listar_responsavel'))
-            else:
-                flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', "danger")
-                return redirect(url_for('cadastrar_responsavel'))
-
-        except Exception as e:
-            print(f'Error: {e}')
-            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
-            return redirect(url_for('cadastrar_responsavel'))
-    var_cargos = get_cargo()
-    for i in var_cargos:
-        nome_c = i['nome_cargo'].replace("-", " ")
-        nome_c1 = nome_c.replace("_", " ")
-        i['nome_cargo'] = nome_c1
-
-    return render_template('cadastro_responsavel.html',var_cargos=var_cargos)
-
 @app.route('/cadastrar_item', methods=['GET', 'POST'])
 def cadastrar_item():
     if request.method == "POST":
@@ -232,6 +247,31 @@ def cadastrar_cargo():
             flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
             return redirect(request.referrer)
 
+@app.route('/cadastrar_modelo', methods=['POST'])
+def cadastrar_modelo():
+    if request.method == "POST":
+        modelo = request.form.get('form_modelo')
+        marca = request.form.get('form_marca')
+
+        if not modelo or not marca:
+            flash("Preencha todos os campos", "danger")
+            return redirect(url_for('cadastrar_viatura'))
+
+        try:
+            pm1 = post_modelo(modelo=modelo, marca=marca)
+
+            if pm1 == 201:
+                flash("Cargo cadastrado com sucesso!", "success")
+                return redirect(url_for('cadastrar_viatura'))
+            else:
+                flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', "danger")
+                return redirect(url_for('cadastrar_viatura'))
+        except Exception as e:
+            print(f'Error: {e}')
+            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
+            return redirect(url_for('cadastrar_viatura'))
+
+
 
 
 @app.route('/editar_viatura/<var_id>', methods=['POST'])
@@ -287,32 +327,6 @@ def editar_policial(var_id):
             print(f'Error: {e}')
             return redirect(url_for('listar_policial'))
 
-@app.route('/editar_responsavel/<var_id>', methods=['POST'])
-def editar_responsavel(var_id):
-    if request.method == "POST":
-        nome = request.form.get('form_nome')
-        email = request.form.get('form_email')
-        cargo = request.form.get('form_cargo')
-
-        if not nome or not email or not cargo:
-            flash("Preencha todos os campos", "danger")
-            return redirect(url_for('listar_responsavel'))
-        try:
-            put_r1 = put_responsavel(nome=nome, email=email, cargo_funcao=cargo,
-                                 var_id=var_id)
-
-            if put_r1 == 200:
-                flash("Responsavel editada com sucesso", "success")
-                return redirect(url_for('listar_responsavel'))
-            else:
-                flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', "danger")
-                return redirect(url_for('listar_responsavel'))
-
-        except Exception as e:
-            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
-            print(f'Error: {e}')
-            return redirect(url_for('listar_responsavel'))
-
 @app.route('/editar_item/<var_id>', methods=['POST'])
 def editar_item(var_id):
     if request.method == "POST":
@@ -351,18 +365,6 @@ def deletar_viatura(var_id):
         else:
             flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
             return redirect(url_for('listar_viatura'))
-
-
-@app.route('/deletar_responsavel/<var_id>', methods=['POST'])
-def deletar_responsavel(var_id):
-    if request.method == "POST":
-        delete_r = delete_responsavel(var_id)
-        if delete_r == 200:
-            flash("Responsavel deletado com sucesso", "success")
-            return redirect(url_for('listar_responsavel'))
-        else:
-            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
-            return redirect(url_for('listar_responsavel'))
 
 @app.route('/deletar_policial/<var_id>', methods=['POST'])
 def deletar_policial(var_id):
@@ -447,30 +449,6 @@ def pesquisa_policiais():
         else:
             flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
             return redirect(url_for('listar_policial'))
-
-@app.route('/pesquisa_responsavel', methods=['POST'])
-def pesquisa_responsavel():
-    if request.method == "POST":
-        nome = request.form.get('form_pesquisa')
-        if not nome:
-            flash("Preencha todos os campos", "danger")
-            return redirect(url_for('listar_responsavel'))
-
-        var_pesquisa_r = pesquisar_responsavel(nome)
-        var_cargos = get_cargo()
-
-        print('asd',var_pesquisa_r[0])
-
-        if var_pesquisa_r[1] == 200:
-            flash(f'Resultado da pesquisa: {nome}', 'success')
-            return render_template('pesquisa_responsavel.html',var_responsavel=var_pesquisa_r[0], var_cargos=var_cargos)
-        elif var_pesquisa_r[1] == 400:
-            flash(f'Responsavel não encontrado', 'danger')
-            return redirect(url_for('listar_responsavel'))
-        else:
-            flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
-            return redirect(url_for('listar_responsavel'))
-
 
 
 @app.route('/historicoManutencao')

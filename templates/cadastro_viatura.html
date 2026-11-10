@@ -54,5 +54,40 @@
     </div>
 </form>
 
+<div class="modal fade" id="cadastro_modelo" tabindex="-1"
+     aria-labelledby="mostrar_cadastrar_modelo"
+     aria-hidden="true">
+    <form id="form-editar" action="{{ url_for('cadastrar_modelo') }}"
+          method="post">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="mostrar_cadastrar_modelo"><i
+                            class="bi bi-pencil-square text-primary fs-6"></i> Cadastar Modelo
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label>
+                        Modelo:
+                        <input type="text" name="form_modelo">
+                    </label>
+                    <label>
+                        Marca:
+                        <input type="text" name="form_marca">
+                    </label>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">Cadastrar
+                    </button>
+                    <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
 {% endblock content %}

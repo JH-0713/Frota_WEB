@@ -16,7 +16,34 @@
 <header>
     <div class="navbar">
         <a href="{{url_for('index')}}">PMSC GESTÃO E FROTA</a>
-        <a href="{{url_for('login')}}">Login</a>
+        {% if current_user.is_authenticated %}
+        <a data-bs-toggle="modal" class="login-name"
+           data-bs-target="#logout">{{current_user.nome}}</a>
+        <div class="modal fade" id="logout" data-bs-backdrop="static" data-bs-keyboard="false"
+             tabindex="-1"
+             aria-labelledby="staticBackdropLabel1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel1">Deseja sair da sua Conta</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body1 d-flex flex-column">
+                        <div class="modal-footer">
+                            <a class="btn btn-danger" href="{{url_for('logout')}}">Sair
+                            </a>
+                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal"
+                                    aria-label="Close">Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <a class="link-login" href="{{url_for('login')}}"><strong>Login</strong></a>
+        {% endif %}
     </div>
 </header>
 <div class="dashboard-container">
@@ -25,8 +52,6 @@
             <a href="{{ url_for('index') }}">Dashboard</a>
 
             <a href="{{ url_for('listar_policial')}}">Listar Policiais</a>
-
-            <a href="{{ url_for('listar_responsavel')}}">Listar Responsáveis</a>
 
             <a href="{{ url_for('listar_viatura') }}">Listar Viaturas</a>
 
@@ -41,25 +66,25 @@
     </aside>
 
     <main class="dashboard-content">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <div class="flash-error px-3">
-        <!--  percorrer a lista de mensagens  -->
-        {% for category, message in messages %}
-        <!--  Criar um card pai e filho  -->
-        <div class="alert alert-{{ category }} alert-dismissible fade show px-5" role="alert">
-            <strong>{{ message }}</strong>.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-error px-3">
+            <!--  percorrer a lista de mensagens  -->
+            {% for category, message in messages %}
+            <!--  Criar um card pai e filho  -->
+            <div class="alert alert-{{ category }} alert-dismissible fade show px-5" role="alert">
+                <strong>{{ message }}</strong>.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-    {% endwith %}
+        {% endif %}
+        {% endwith %}
 
-    {% block content %}
+        {% block content %}
 
 
-    {% endblock %}
+        {% endblock %}
 
     </main>
 

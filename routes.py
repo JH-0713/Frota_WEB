@@ -1,6 +1,25 @@
 import requests
 
-endereco = "http://10.135.232.31:5002"
+endereco = "http://10.135.232.15:5002"
+
+def get_officer(var_id):
+    url = f"{endereco}/log_policial/{var_id}"
+
+    result_officer = requests.get(url)
+
+    return result_officer.json(), result_officer.status_code
+
+def login_usuario(email,senha):
+    url = f"{endereco}/login"
+
+    dados = {
+        "email": email,
+        "senha": senha
+    }
+
+    result_login = requests.post(url=url, json=dados)
+
+    return result_login.json(), result_login.status_code
 
 def get_policial():
     url = f"{endereco}/get_policiais"
@@ -15,13 +34,6 @@ def get_viatura():
     result_viatura = requests.get(url)
 
     return result_viatura.json()
-
-def get_responsavel():
-    url = f"{endereco}/get_responsaveis"
-
-    result_responsavel = requests.get(url)
-
-    return result_responsavel.json()
 
 def get_itens():
     url = f"{endereco}/get_itens"
@@ -81,21 +93,6 @@ def post_viatura(placa, ano, km_atual,modelo):
     result_viatura = requests.post(url=url, json=dados)
 
     return result_viatura.status_code
-
-def post_responsavel(nome,email,senha,cargo_funcao):
-    url = f"{endereco}/post_responsavel"
-
-    dados = {
-        "nome":nome,
-        "email":email,
-        "senha":senha,
-        "cargo_funcao":cargo_funcao
-
-    }
-
-    result_responsavel = requests.post(url, json=dados)
-
-    return result_responsavel.status_code
 
 def post_item(nome_item,descricao,categoria_falha,valor_unitario):
 
@@ -183,17 +180,6 @@ def pesquisar_itens(nome):
 
     return result_policial.json(), result_policial.status_code
 
-def pesquisar_responsavel(nome):
-    url = f"{endereco}/pesquisar_responsavel"
-
-    dados = {
-        "nome": nome
-    }
-
-    result_policial = requests.post(url=url, json=dados)
-
-    return result_policial.json(), result_policial.status_code
-
 
 def put_policial(nome, email,cargo_patente,var_id):
     url = f"{endereco}/put_policial/{var_id}"
@@ -222,18 +208,6 @@ def put_viatura(placa, ano, km_atual,modelo,var_id):
 
     return result_viatura.status_code
 
-def put_responsavel(nome,email,cargo_funcao,var_id):
-    url = f"{endereco}/put_responsavel/{var_id}"
-
-    dados = {
-        "nome":nome,
-        "email":email,
-        "cargo_funcao":cargo_funcao
-    }
-
-    result_responsavel = requests.put(url=url, json=dados)
-
-    return result_responsavel.status_code
 
 def put_item(nome_item, descricao, categoria, valor_unitario, var_id):
     url = f"{endereco}/put_item_manutencao/{var_id}"
@@ -265,12 +239,6 @@ def delete_viatura(var_id):
 
     return result_viatura.status_code
 
-def delete_responsavel(var_id):
-    url = f"{endereco}/delete_responsavel/{var_id}"
-
-    result_viatura = requests.delete(url)
-
-    return result_viatura.status_code
 
 def delete_item(var_id):
     url = f"{endereco}/delete_item/{var_id}"

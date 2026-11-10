@@ -40,7 +40,6 @@ header {
     justify-content: center;
     align-items: center;
     flex: 1;
-    padding: 20px;
 }
 
 .login-caixa {
@@ -48,7 +47,18 @@ header {
     background-color: white;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    padding: 40px;
+    padding: 20px;
+}
+
+.login-name {
+    font-size: 18px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+}
+
+.login-name:hover {
+    color: color-mix(in srgb, grey, white 20%);;
 }
 
 .dentro-caixa {
@@ -62,7 +72,7 @@ header {
 }
 
 .campo {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .campo label {
