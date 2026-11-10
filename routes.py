@@ -244,7 +244,6 @@ def delete_viatura(var_id):
 
     return result_viatura.status_code
 
-
 def delete_item(var_id):
     url = f"{endereco}/delete_item/{var_id}"
 

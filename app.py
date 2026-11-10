@@ -368,6 +368,8 @@ def editar_item(var_id):
             print(f'Error: {e}')
             return redirect(url_for('listar_responsavel'))
 
+
+
 @app.route('/deletar_viatura/<var_id>', methods=['POST'])
 def deletar_viatura(var_id):
     if request.method == "POST":
@@ -390,6 +392,17 @@ def deletar_policial(var_id):
         else:
             flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
             return redirect(url_for('listar_policial'))
+
+@app.route('/deletar_item/<var_id>', methods=['POST'])
+def deletar_item(var_id):
+    delete_i = delete_item(var_id)
+
+    if delete_i == 200:
+        flash("Item deletado com sucesso", "success")
+        return redirect(url_for('listar_item'))
+    else:
+        flash('Falha no Sistema Interno, Tente Novamente mais Tarde.', 'warning')
+        return redirect(url_for('listar_item'))
 
 
 
@@ -431,7 +444,8 @@ def pesquisa_itens():
         print('status', var_pesquisa_i[1])
         if var_pesquisa_i[1] == 200:
             flash(f'Resultado da pesquisa: {v_text}', 'success')
-            return render_template('pesquisa_itens.html',var_itens=var_pesquisa_i[0])
+            var_categ = get_categoria()
+            return render_template('pesquisa_itens.html',var_itens=var_pesquisa_i[0], var_categ=var_categ)
         elif var_pesquisa_i[1] == 400:
             flash(f'Item não encontrado', 'danger')
             return redirect(url_for('listar_itens'))

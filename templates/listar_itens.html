@@ -12,7 +12,8 @@
     <div class="topbar-acoes">
         <form action="{{url_for('pesquisa_itens')}}" method="post">
             <label for="pesquisa_item"></label>
-            <input id="pesquisa_item" name="form_pesquisa" type="text" placeholder="Buscar pelo nome..." class="filtro-busca">
+            <input id="pesquisa_item" name="form_pesquisa" type="text" placeholder="Buscar pelo nome..."
+                   class="filtro-busca">
         </form>
         <a href="{{url_for('cadastrar_item')}}" class="btn-incluir">Cadastrar Item</a>
     </div>
@@ -39,11 +40,93 @@
             <td>{{ item['item']['descricao'] }}</td>
             <td>{{ item['categoria']['nome_categoria'] }}</td>
             <td>R$ {{ item['item']['valor_unitario'] }}</td>
-            <td class="acoes">✏️ 🗑️</td>
+            <td class="acoes">
+                <a data-bs-toggle="modal" data-bs-target="#editar_item_{{item['item']['id_item']}}">✏️</a>
+                <a data-bs-toggle="modal" data-bs-target="#delete_item{{item['item']['id_item']}}">🗑️</a>
+            </td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
+    {% for i in var_itens %}
+    <div class="modal fade" id="editar_item_{{i['item']['id_item']}}" tabindex="-1"
+         aria-labelledby="mostrar_item{{i['item']['id_item']}}"
+         aria-hidden="true">
+        <form id="form-editar" action="{{ url_for('editar_item', var_id = i['item']['id_item']) }}"
+              method="post">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="mostrar_item{{i['item']['id_item']}}"><i
+                                class="bi bi-pencil-square text-primary fs-6"></i> Editar Item
+                            {{i['item']['nome_item']}}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label>
+                            Nome:
+                            <input type="text" name="form-odometro" value="{{i['item']['nome_item']}}">
+                        </label>
+                        <label>
+                            Descrição:
+                            <input type="text" name="form_email" value="{{i['item']['descricao']}}">
+                        </label>
+                        <label>
+                            Categoria:
+                            <select name="form-modelo">
+                                {% for i2 in var_categ %}
+                                {% if i2.id_categoria == i['categoria']['nome_categoria'] %}
+                                <option value="{{i2['id_categoria']}}" selected>{{i2.nome_categoria}}</option>
+                                {% else %}
+                                <option value="{{i2['id_categoria']}}">{{i2.nome_categoria}}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </label>
+                        <label>
+                            Valor:
+                            <input type="text" name="form-placa" value="{{i['item']['valor_unitario']}}">
+                        </label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">Editar
+                        </button>
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Fechar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="delete_item{{i['item']['id_item']}}" tabindex="-1"
+         aria-labelledby="mostrar_delete_item{{i['item']['id_item']}}"
+         aria-hidden="true">
+        <form id="form-deletar" action="{{ url_for('deletar_item', var_id = i['item']['id_item']) }}"
+              method="post">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="mostrar_delete_item{{i['item']['id_item']}}"><i
+                                class="bi bi-trash-fill text-primary fs-6"></i> Deseja deletar o item:
+                            {{i['item']['nome_item']}}?</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Deletar
+                        </button>
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Voltar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% endfor %}
 </div>
 
 
